@@ -5,6 +5,7 @@
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 #include <EEPROM.h>
+#include <TimeLib.h>
 // -------------------------------------------------------------------
 // Archivos *.hpp - Fragmentar el Código
 // ----------------------------------------
@@ -12,6 +13,7 @@
 #include "vue32_functions,hpp"  //archivo donde se encontraran las funciones
 #include "vue32_settings.hpp"   //opciones generales del proyecto
 #include "vue32_wifi.hpp"
+#include "vue32_mqtt.hpp"
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -43,6 +45,10 @@ void setup() {
   settingPines();
   //setup WIFI
   wifi_setup();
+
+
+
+  log("[ INFO ] Setup completado");
 }
 
 void loop() {
@@ -51,5 +57,24 @@ void loop() {
     wifiLoop();
   }else if(wifi_mode == WIFI_AP){
     wifiAPLoop();
+  }
+  // -----------------------------------------------------------------
+  // MQTT
+  // -----------------------------------------------------------------
+  if((WiFi.status() == WL_CONNECTED) && (wifi_mode == WIFI_STA)){ //estoy conectado al WIFI y en mono estación
+    if(mqtt_server != 0){
+      // Función para el Loop principla de MQTT
+      //log("server diferente de 0");
+      mqttLoop();
+      if(mqttClient.connected() && mqtt_time_send){
+        //log("va a publicar");
+        // Funcion para enviar JSON por MQTT cada determinado tiempo
+        if(millis() - lastMsg > mqtt_time_interval){
+          lastMsg = millis();
+          //log("ya paso el tiempo para publicar");
+          mqtt_publish();
+        }
+      }
+    }
   }
 }

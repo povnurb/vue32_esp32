@@ -70,3 +70,53 @@ String ipStr(const IPAddress &ip){
     sFn += String(((ip >> 8 * 3)) & 0xFF);
     return sFn;
 }
+// -------------------------------------------------------------------
+// Crear un path para los Topicos en MQTT
+// v1/devices/vue32_admin/ESP329B1C52100C3D
+// -------------------------------------------------------------------
+String pathMqtt(){
+    return String("v1/devices/"+String(mqtt_user)+"/"+String(mqtt_cloud_id));
+}
+// -------------------------------------------------------------------
+// Parpadeo LED MQTT Recepción
+// -------------------------------------------------------------------
+void mqttRX(){
+    for(int16_t i = 0; i < 1; i++){
+        blinkRandomSingle(5,50, MQTTLED);
+        vTaskDelay(10);
+        setOffSingle(MQTTLED);
+    }
+}
+// -------------------------------------------------------------------
+// Parpadeo LED MQTT Transmisión
+// -------------------------------------------------------------------
+void mqttTX(){
+    for(int16_t i = 0; i < 6; i++){
+        setOnSingle(MQTTLED);
+        vTaskDelay(50);
+        setOffSingle(MQTTLED);
+        vTaskDelay(10);
+    }
+}
+// -------------------------------------------------------------------
+// Retorna segundos como "d:hh:mm:ss"
+// -------------------------------------------------------------------
+String longTimeStr(const time_t &t){        
+    String s = String(t / SECS_PER_DAY) + ':';
+    if (hour(t) < 10)
+    {
+        s += '0';
+    }
+    s += String(hour(t)) + ':';
+    if (minute(t) < 10)
+    {
+        s += '0';
+    }
+    s += String(minute(t)) + ':';
+    if (second(t) < 10)
+    {
+        s += '0';
+    }
+    s += String(second(t));
+    return s;
+}

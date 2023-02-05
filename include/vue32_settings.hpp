@@ -100,7 +100,7 @@ void settingsReset(){
     // -------------------------------------------------------------------
     // Cloud settings.json
     // -------------------------------------------------------------------
-    mqtt_cloud_enable = false;
+    mqtt_cloud_enable = true;
     strlcpy(mqtt_user, "L4L0S4N", sizeof(mqtt_user));
     strlcpy(mqtt_password, "ED0613620", sizeof(mqtt_password));
     strlcpy(mqtt_server, "broker.hivemq.com", sizeof(mqtt_server));
