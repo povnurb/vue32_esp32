@@ -10,10 +10,11 @@
 // Archivos *.hpp - Fragmentar el Código
 // ----------------------------------------
 #include "vue32_header.hpp"     //para variables globales
-#include "vue32_functions,hpp"  //archivo donde se encontraran las funciones
+#include "vue32_functions.hpp"  //archivo donde se encontraran las funciones
 #include "vue32_settings.hpp"   //opciones generales del proyecto
 #include "vue32_wifi.hpp"
 #include "vue32_mqtt.hpp"
+#include "vue32_server.hpp"
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -45,7 +46,8 @@ void setup() {
   settingPines();
   //setup WIFI
   wifi_setup();
-
+  // Inicializar el Servidor WEB
+  InitServer();
 
 
   log("[ INFO ] Setup completado");

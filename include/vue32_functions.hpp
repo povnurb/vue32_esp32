@@ -12,6 +12,8 @@ String platform(){
     // Optiene la plataforma del hardware
 #ifdef ARDUINO_ESP32_DEV
     return "ESP32";
+#else
+    return "ESPWROOM32";
 #endif
 }
 // -------------------------------------------------------------------
@@ -119,4 +121,49 @@ String longTimeStr(const time_t &t){
     }
     s += String(second(t));
     return s;
+}
+// -------------------------------------------------------------------
+// Retorna la calidad de señal WIFI en %
+// -------------------------------------------------------------------
+int getRSSIasQuality(int RSSI){
+    int quality = 0;
+    if(RSSI <= -100){
+        quality = 0;
+    }else if (RSSI >= -50){
+        quality = 100;
+    }else{
+       quality = 2 * (RSSI + 100);
+    }
+    return quality;
+}
+// -------------------------------------------------------------------
+// Retorna el contenido del Body Enviado como JSON metodo POST/PUT
+// -------------------------------------------------------------------
+String GetBodyContent(uint8_t *data, size_t len){
+  String content = "";
+  for (size_t i = 0; i < len; i++) {
+    content .concat((char)data[i]);
+  }
+  return content;
+}
+// -------------------------------------------------------------------
+// Retorna el Tipo de Encriptacion segun el codigo (0-1-2-3-4-5)
+// -------------------------------------------------------------------
+String EncryptionType(int encryptionType) {
+    switch (encryptionType) {
+        case (0):
+            return "Open";
+        case (1):
+            return "WEP";
+        case (2):
+            return "WPA_PSK";
+        case (3):
+            return "WPA2_PSK";
+        case (4):
+            return "WPA_WPA2_PSK";
+        case (5):
+            return "WPA2_ENTERPRISE";
+        default:
+            return "UNKOWN";
+    }
 }
