@@ -1,7 +1,7 @@
 #include "ESPAsyncWebServer.h"          //servidor asincrono
 #include <Update.h>                     //para actualizar el firmware
 
-bool cors = true; //habilita los cruces de origen
+bool cors = true; //habilita los cruces de origen igual a true
 
 AsyncWebServer server(80);
 // -------------------------------------------------------------------
@@ -35,9 +35,11 @@ void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
     StaticJsonDocument<768> doc;
     DeserializationError error = deserializeJson(doc, bodyContent);
     if (error) { 
+        Serial.println("[ ERROR ] En petición POST");
         request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
         return;
     };
+    Serial.println("[ INFO ] Ok petición POST");
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------  
@@ -124,9 +126,11 @@ void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
     }
     // Save Settings.json
     if (settingsSave()){
-        request->send(200, dataType, "{ \"save\": true }");        
+        request->send(200, dataType, "{ \"save\": true }");
+        log("[ INFO ] Se Guardo");        
     }else{
         request->send(500, dataType, "{ \"save\": false }");
+        log("[ INFO ] No se Guardo");
     } 
 }
 // -------------------------------------------------------------------
@@ -200,11 +204,12 @@ void putRequestCloudConnection(AsyncWebServerRequest * request, uint8_t *data, s
 void putRequestCloudData(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
     /* if(!request->authenticate(device_old_user, device_old_password)) 
         return request->requestAuthentication(); */    
-    const char* dataType = "application/json"; 
+    const char* dataType = "application/json"; //application/json
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<768> doc;
     DeserializationError error = deserializeJson(doc, bodyContent);
     if (error) { 
+        log("[ INFO ] Error 400");
         request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
         return;
     };
@@ -545,9 +550,9 @@ void InitServer(){
     // -------------------------------------------------------------------
     // Actualizar las configuraciones del WiFi
     // url: /api/wifi
-    // Método: PUT
+    // Método: POST
     // -------------------------------------------------------------------
-    server.on("/api/wifi", HTTP_PUT, [](AsyncWebServerRequest * request){}, NULL, putRequestWiFi);
+    server.on("/api/wifi", HTTP_POST, [](AsyncWebServerRequest *request){log("[ INFO ] peticion post");}, NULL, putRequestWiFi);
     // -------------------------------------------------------------------
     // Escanear todas las redes WIFI al alcance de la señal
     // url: /api/scan
@@ -631,15 +636,15 @@ void InitServer(){
     // -------------------------------------------------------------------
     // Actualizar las configuraciones del Cloud Conexiones
     // url: /api/cloud/connection
-    // Método: PUT
+    // Método: POST
     // -------------------------------------------------------------------
-    server.on("/api/cloud/connection", HTTP_PUT, [](AsyncWebServerRequest * request){}, NULL, putRequestCloudConnection);
+    server.on("/api/cloud/connection", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestCloudConnection);
     // -------------------------------------------------------------------
     // Actualizar las configuraciones del Cloud Datos
     // url: /api/cloud/data
-    // Método: PUT
+    // Método: POST
     // -------------------------------------------------------------------
-    server.on("/api/cloud/data", HTTP_PUT, [](AsyncWebServerRequest * request){}, NULL, putRequestCloudData);
+    server.on("/api/cloud/data", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestCloudData);
     // -------------------------------------------------------------------
     // Parámetros de Configuración del ID del Dispositivo y el Serial
     // url: /api/settings/id
@@ -664,15 +669,15 @@ void InitServer(){
     // -------------------------------------------------------------------
     // Actualizar las configuraciones del ID del Dispositivo
     // url: /api/settings/id
-    // Método: PUT
+    // Método: POST
     // -------------------------------------------------------------------
-    server.on("/api/settings/id", HTTP_PUT, [](AsyncWebServerRequest * request){}, NULL, putRequestDeviceID);
+    server.on("/api/settings/id", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestDeviceID);
     // -------------------------------------------------------------------
     // Actualizar las configuraciones del WWW Usuario y Contraseña
     // url: /api/settings/user
-    // Método: PUT
+    // Método: POST
     // -------------------------------------------------------------------
-    server.on("/api/settings/user", HTTP_PUT, [](AsyncWebServerRequest * request){}, NULL, putRequestUser);
+    server.on("/api/settings/user", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestUser);
     // -------------------------------------------------------------------
     // Manejo de la descarga del Archivo setting.json
     // url: "/api/settings/download"
@@ -730,7 +735,8 @@ void InitServer(){
     // -------------------------------------------------------------------
     if(cors == true){
         DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
-        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*"); 
+        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
+        //DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
     }
     server.begin();
     log("[ INFO ] Servidor HTTP iniciado");
