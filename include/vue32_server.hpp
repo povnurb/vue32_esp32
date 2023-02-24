@@ -4,6 +4,8 @@
 bool cors = true; //habilita los cruces de origen igual a true
 
 AsyncWebServer server(80);
+AsyncWebSocket ws("/ws"); //se instancia ws sobre el puerto ochenta con el /ws
+AsyncEventSource events("/events"); //eventos ws
 // -------------------------------------------------------------------
 // Zona API REST
 // -------------------------------------------------------------------

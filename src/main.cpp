@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------
-// Librerías
+// Librerías      v1/devices/L4L0S4N/ESPWROOM325AF6B8701CF1/# subcribirse
 // -------------------------------
 #include <Arduino.h>
 #include <ArduinoJson.h>
@@ -15,6 +15,7 @@
 #include "vue32_wifi.hpp"
 #include "vue32_mqtt.hpp"
 #include "vue32_server.hpp"
+#include "vue32_websockets.hpp"
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -48,8 +49,9 @@ void setup() {
   wifi_setup();
   // Inicializar el Servidor WEB
   InitServer();
-
-
+  // Inicializamos el Websocket
+  InitWebSockets();
+  //fin del setup
   log("[ INFO ] Setup completado");
 }
 
