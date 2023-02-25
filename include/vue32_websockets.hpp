@@ -97,13 +97,13 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 		ESP.restart();
 	}
 	
-}
+}*/
 // -------------------------------------------------------------------
 // Función enviar JSON por Websocket 
 // -------------------------------------------------------------------
 void WsMessage(String msg, String icon, String Type){
-
-	if(strcmp(Type.c_str(), "info") == 0){
+	if(Type == "msg"){
+	/*if(strcmp(Type.c_str(), "info") == 0){
 		String response;
 		StaticJsonDocument<300> doc;
 		doc["type"] = Type;
@@ -111,11 +111,12 @@ void WsMessage(String msg, String icon, String Type){
 		doc["icon"] = icon;
 		serializeJson(doc, response);
 		ws.textAll(response);
+		*/
 	}else{
 		ws.textAll(msg);
 	}
 	
-}
+}/*
 // -------------------------------------------------------------------
 // Empaquetar el JSON para enviar por WS Datos para Index cada 1s
 // -------------------------------------------------------------------

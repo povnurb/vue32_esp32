@@ -1,4 +1,6 @@
 #include "vue32_LedBlink.hpp"
+
+void WsMessage(String msg, String icon, String Type);
 // -----------------------------------------------------
 // Genera un log en el puerto Serial
 // -----------------------------------------------------
@@ -166,4 +168,96 @@ String EncryptionType(int encryptionType) {
         default:
             return "UNKOWN";
     }
+}
+// -------------------------------------------------------------------
+// Empaquetar el JSON para enviar por WS ( progress en % y Actividad MQTT )
+// -------------------------------------------------------------------
+String getSendJson(String msg, String type){
+    String response = "";
+    StaticJsonDocument<300> doc;
+    doc["type"] = type;
+    doc["msg"] = msg;
+    serializeJson(doc, response);
+    return response;
+}
+// ------------------------------------------------------------
+// Print Progress Firware or SPIFFS Update
+// ------------------------------------------------------------
+int c = 0;
+void printProgress(size_t prog, size_t sz){
+    int progress = (prog * 100) / content_len;
+     switch (progress){
+        case 10:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 20:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 30:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 40:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 50:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 60:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 70:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 80:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 90:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(progress), "update"), "", "");
+            }
+            break;
+        case 98:
+            c ++;
+            if(c>=2) c=1;
+            if(c==1){
+                WsMessage(getSendJson(String(100), "update"), "", "");
+            }
+            break;
+    }
+    Serial.printf("[ INFO ] Progreso de la Actualizacion al : %d%%\n", progress);
+
 }

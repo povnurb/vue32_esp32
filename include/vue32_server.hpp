@@ -738,9 +738,10 @@ void InitServer(){
     if(cors == true){
         DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
         DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
-        //DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
+        
     }
     server.begin();
+    Update.onProgress(printProgress);
     log("[ INFO ] Servidor HTTP iniciado");
 
 }
