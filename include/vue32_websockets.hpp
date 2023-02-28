@@ -79,15 +79,15 @@ void InitWebSockets(){
 void ProcessRequest(AsyncWebSocketClient * client, String request){    
 	String command = request;
     command.trim();
-    }/*
-	if (strcmp(command.c_str(), "restore") == 0){
+    
+	if (strcmp(command.c_str(), "restore") == 0){ //strcmp() si lo que llega es igual a "restore" da un 0
 		log("[ INFO ] Commando por WS => " + command);
 		settingsReset();
 		if(settingsSave()){
 			WsMessage("¡Equipo restablecido correctamente!","undo-alt","info");
 			log("[ INFO ] ¡Equipo restablecido correctamente!");
-			Serial.flush(); 
-			ESP.restart();
+			Serial.flush(); //espera a que se envie el log
+			ESP.restart(); //reinicia el esp
 		}
 	}else if(strcmp(command.c_str(), "restart") == 0){
 		log("[ INFO ] Commando por WS => " + command);	
@@ -97,13 +97,13 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 		ESP.restart();
 	}
 	
-}*/
+}
 // -------------------------------------------------------------------
 // Función enviar JSON por Websocket 
 // -------------------------------------------------------------------
 void WsMessage(String msg, String icon, String Type){
-	if(Type == "msg"){
-	/*if(strcmp(Type.c_str(), "info") == 0){
+	
+	if(strcmp(Type.c_str(), "info") == 0){
 		String response;
 		StaticJsonDocument<300> doc;
 		doc["type"] = Type;
@@ -111,7 +111,6 @@ void WsMessage(String msg, String icon, String Type){
 		doc["icon"] = icon;
 		serializeJson(doc, response);
 		ws.textAll(response);
-		*/
 	}else{
 		ws.textAll(msg);
 	}
