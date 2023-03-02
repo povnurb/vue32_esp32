@@ -1,6 +1,7 @@
 #include "vue32_LedBlink.hpp"
 
 void WsMessage(String msg, String icon, String Type);
+String getSendJson(String msg, String type);
 // -----------------------------------------------------
 // Genera un log en el puerto Serial
 // -----------------------------------------------------
@@ -86,6 +87,7 @@ String pathMqtt(){
 // -------------------------------------------------------------------
 void mqttRX(){
     for(int16_t i = 0; i < 1; i++){
+        WsMessage(getSendJson("Recepción","mqtt"), "","");
         blinkRandomSingle(5,50, MQTTLED);
         vTaskDelay(10);
         setOffSingle(MQTTLED);
@@ -96,6 +98,7 @@ void mqttRX(){
 // -------------------------------------------------------------------
 void mqttTX(){
     for(int16_t i = 0; i < 6; i++){
+        WsMessage(getSendJson("Transmisión","mqtt"), "","");
         setOnSingle(MQTTLED);
         vTaskDelay(50);
         setOffSingle(MQTTLED);

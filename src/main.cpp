@@ -81,4 +81,13 @@ void loop() {
       }
     }
   }
+  // ---------------------------------------------------------------
+  // Enviar Json por ws cada un segundo incluiran las alarmas se encuentra
+  // en vue32_websockets.hpp
+  // ---------------------------------------------------------------
+  if (millis() - lastWsSend > 1000){
+    lastWsSend = millis();
+    WsMessage(getJsonIndex(),"","");
+  }
+  
 }

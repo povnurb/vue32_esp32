@@ -96,6 +96,7 @@ void callback(char *topic, byte *payload, unsigned int length){
         // Parpadeo del Led en cada recepción de caracteres
         mqttRX();
     }
+    WsMessage(getSendJson("Inactivo","mqtt"), "","");
     mensaje.trim();
     log("[ INFO ] Topico -->" + str_topic);
     log("[ INFO ] Mensaje -->" + mensaje);
@@ -110,6 +111,7 @@ void mqtt_publish(){
     mqttClient.publish(topic.c_str(), mqtt_data.c_str(), mqtt_retain);
     mqtt_data = "";
     mqttTX();
+    WsMessage(getSendJson("Inactivo","mqtt"), "","");
 }
 // -------------------------------------------------------------------
 // JSON con información del Dispositivo para envio por MQTT

@@ -115,9 +115,10 @@ void WsMessage(String msg, String icon, String Type){
 		ws.textAll(msg);
 	}
 	
-}/*
+}
 // -------------------------------------------------------------------
 // Empaquetar el JSON para enviar por WS Datos para Index cada 1s
+// aqui tambien meter las alarmas
 // -------------------------------------------------------------------
 String getJsonIndex(){
 	String response = "";
@@ -133,5 +134,5 @@ String getJsonIndex(){
 	serializeJson(jsonDoc, response);
 	return response;
 }
-*/
+
 
