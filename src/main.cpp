@@ -39,6 +39,7 @@ void setup() {
     log("[ ERROR ] Falló la inicializacion del SPIFFS");
     while(true);
   }
+  //SPIFFS.remove("/settings.json"); //para pruebas ya que se guarda la configuracion y con esto reseteamos el SPIFFS
   //Leer el Archivo Settings.json
   if(!settingRead()){ //si no lo puede leer el settingSave lo crea y lo guarda
     settingsSave();

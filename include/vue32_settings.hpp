@@ -80,14 +80,14 @@ void settingsReset(){
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
-    wifi_ip_static = false; //
+    wifi_ip_static = true; // false
     strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//cambiar a telmex //"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
     strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//cambiar            //"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
-    strlcpy(wifi_ipv4, "192.168.1.150", sizeof(wifi_ipv4));
+    strlcpy(wifi_ipv4, "192.168.1.164", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
     strlcpy(wifi_subnet, "255.255.255.0", sizeof(wifi_subnet));
-    strlcpy(wifi_gateway, "192.168.1.1", sizeof(wifi_gateway));
-    strlcpy(wifi_dns_primary, "8.8.8.8", sizeof(wifi_dns_primary));
-    strlcpy(wifi_dns_secondary, "8.8.4.4", sizeof(wifi_dns_secondary));
+    strlcpy(wifi_gateway, "192.168.1.254", sizeof(wifi_gateway));//192.168.1.254
+    strlcpy(wifi_dns_primary, "192.168.1.254", sizeof(wifi_dns_primary)); //8.8.8.8
+    strlcpy(wifi_dns_secondary, "8.8.4.4", sizeof(wifi_dns_secondary)); 
     // -------------------------------------------------------------------
     // WIFI AP settings.json
     // -------------------------------------------------------------------

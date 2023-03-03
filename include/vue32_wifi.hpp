@@ -6,7 +6,7 @@
 const byte DNSSERVER_PORT = 53;
 DNSServer dnsServer;
 
-IPAddress ap_IPv4(192,168,4,1);
+IPAddress ap_IPv4(192,168,1,164);  // ap_IPv4(192,168,4,1) o ap_IPv4(192,168,1,164)
 IPAddress ap_subnet(255,255,255,0);
 
 // WiFi.mode(WIFI_STA)      - station mode: the ESP32 connects to an access point
@@ -61,6 +61,9 @@ void startClient(){
     }
     if(WiFi.status() == WL_CONNECTED){
         log("[ INFO ] WiFi conectado (" + String(WiFi.RSSI()) + ") dBm IPv4 " + ipStr(WiFi.localIP()));
+        log("[ INFO ] WiFi Mask "+ipStr(WiFi.subnetMask()));
+        log("[ INFO ] WiFi Gateway "+ipStr(WiFi.gatewayIP()));
+        log("[ INFO ] WiFi DNS "+ipStr(WiFi.dnsIP()));
         blinkRandomSingle(10, 100, WIFILED);
         wifi_mode = WIFI_STA;
         wifi_change = true;

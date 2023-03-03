@@ -1,3 +1,5 @@
+#pragma once
+#include "vuejs.h"
 #include "ESPAsyncWebServer.h"          //servidor asincrono
 #include <Update.h>                     //para actualizar el firmware
 
@@ -451,6 +453,203 @@ void handleDoFirmware(AsyncWebServerRequest *request, const String& filename, si
     }
 }
 
+// -------------------------------------------------------------------
+// Zona API REST        *********************************************
+// -------------------------------------------------------------------
+void handleIndex(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "text/html";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, index_html, index_html_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web App.js        *********************************************
+// -------------------------------------------------------------------
+void handleAppJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, app_js, app_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Alarmas.js        *********************************************
+// -------------------------------------------------------------------
+void handleAlarmasJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, alarmas_js, alarmas_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web cloud.js        *********************************************
+// -------------------------------------------------------------------
+void handleCloudJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, cloud_js, cloud_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web dashmix.js        *********************************************
+// -------------------------------------------------------------------
+void handleDashmixJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, dashmix_js, dashmix_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Settings.js        *********************************************
+// -------------------------------------------------------------------
+void handleSettingsJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, settings_js, settings_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web wifi.js        *********************************************
+// -------------------------------------------------------------------
+void handleWifiJS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, wifi_js, wifi_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Error404.js        *********************************************
+// -------------------------------------------------------------------
+void handle404JS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, page404_js, page404_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Dashmix.css        *********************************************
+// -------------------------------------------------------------------
+void handleDashmixCSS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "text/css";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, dashmix_css, dashmix_css_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web App.css        *********************************************
+// -------------------------------------------------------------------
+void handleAppCSS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "text/css";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, app_css, app_css_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web xeco.css        *********************************************
+// -------------------------------------------------------------------
+void handleXecoCSS(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "text/css";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, xeco_css, xeco_css_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Font fa.regular.woff2        *********************************************
+// -------------------------------------------------------------------
+void handleFaRegularWOFF2(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "font/woff2";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, fa_regular_woff2, fa_regular_woff2_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Font fa.solid.woff2        *********************************************
+// -------------------------------------------------------------------
+void handleFaSolidWOFF2(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "font/woff2";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, fa_solid_woff2, fa_solid_woff2_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Font Simple.Icon.woff2        *********************************************
+// -------------------------------------------------------------------
+void handleSimpleIconWOFF2(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "font/woff2";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, Simple_Icons_woff2, Simple_Icons_woff2_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web Favicon.png        *********************************************
+// -------------------------------------------------------------------
+void handleIcon(AsyncWebServerRequest *request){
+    /* if(!request->authenticate(device_old_user, device_old_password)){
+        request->requestAuthentication();
+        return;
+    }*/
+    const char* dataType = "image/x-icon";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, favicon_png, favicon_png_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+
+
 void InitServer(){
     // -------------------------------------------------------------------
     // Zona API REST
@@ -722,6 +921,73 @@ void InitServer(){
             return request->requestAuthentication(); */
         request->send(401, "application/json", "{ \"session\": false, \"msg\": \"Sesión cerrada correctamente\"}");
     });
+
+    // -------------------------------------------------------------------
+    // Zona Servidor Web VUE
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // Cargar página Index.html o Home
+    // url: "/"
+    // Método: GET        1
+    // -------------------------------------------------------------------
+    server.on("/",HTTP_GET,handleIndex);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/app.js    2
+    // -------------------------------------------------------------------
+    server.on("/js/app.js",HTTP_GET,handleAppJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/alarmas.js    3
+    // -------------------------------------------------------------------
+    server.on("/js/alarmas.js",HTTP_GET,handleAlarmasJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/cloud.js    4
+    // -------------------------------------------------------------------
+    server.on("/js/cloud.js",HTTP_GET,handleCloudJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/dashmix.app.min.js   5
+    // -------------------------------------------------------------------
+    server.on("/js/dashmix.app.min.js",HTTP_GET,handleDashmixJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/settings.js     6
+    // -------------------------------------------------------------------
+    server.on("/js/settings.js",HTTP_GET,handleSettingsJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/wifi.js      7
+    // -------------------------------------------------------------------
+    server.on("/js/wifi.js",HTTP_GET,handleWifiJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/page404.js     8
+    // -------------------------------------------------------------------
+    server.on("/js/page404.js",HTTP_GET,handle404JS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./css/dashmix.min.css      9
+    // -------------------------------------------------------------------
+    server.on("/css/dashmix.min.css",HTTP_GET,handleDashmixCSS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./css/app.css      10
+    // -------------------------------------------------------------------
+    server.on("/css/app.css",HTTP_GET,handleAppCSS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./css/xeco.css      11
+    // -------------------------------------------------------------------
+    server.on("/css/xeco.min.css",HTTP_GET,handleXecoCSS);
+    // -------------------------------------------------------------------
+    // Cargar de Archivos complementarios ./css/fa-regular-400.woff2    12
+    // ------------------------------------------------------------------- 
+    server.on("/css/fa-regular-400.woff2",HTTP_GET,handleFaRegularWOFF2);
+    // -------------------------------------------------------------------
+    // Cargar de Archivos complementarios ./css/fa-solid-900.woff2      13
+    // ------------------------------------------------------------------- 
+    server.on("/css/fa-solid-900.woff2",HTTP_GET,handleFaSolidWOFF2);
+    // -------------------------------------------------------------------
+    // Cargar de Archivos complementarios ./css/Simple-Line-Icons.woff2     14
+    // ------------------------------------------------------------------- 
+    server.on("/css/Simple-Line-Icons.woff2",HTTP_GET,handleSimpleIconWOFF2);
+    // -------------------------------------------------------------------
+    // Cargar de Archivos complementarios ./img/favicon.png           15
+    // ------------------------------------------------------------------- 
+    server.on("/img/favicon.png",HTTP_GET,handleIcon);
+
     // -------------------------------------------------------------------
     // Manejo del Error 404 página no encontrada 
     // url: "desconocido"
@@ -729,7 +995,8 @@ void InitServer(){
     server.onNotFound([](AsyncWebServerRequest *request){
         /* if(!request->authenticate(device_old_user, device_old_password)) 
             return request->requestAuthentication(); */
-        request->send(404, "application/json", "{ \"status\": 404, \"msg\": \"Error 404, página no encontrada\"}");
+            
+        request->send(302, "application/json", "{ \"status\": 404, \"msg\": \"Error 404, página no encontrada\"}");
         return;
     });
     // -------------------------------------------------------------------
