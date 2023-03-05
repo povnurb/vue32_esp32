@@ -6,6 +6,17 @@
 #include <SPIFFS.h>
 #include <EEPROM.h>
 #include <TimeLib.h>
+#include <WiFi.h>
+#include <DNSServer.h>
+#include <ESPmDNS.h> 
+// Libreria para el RTC del ESP32
+#include <ESP32Time.h>
+// Libreria para NTP
+#include <NTPClient.h>
+
+/*Librerias agregadas para nuevas funcionalidades (LALO)*/
+#include <Adafruit_Sensor.h>    //by Adafruit
+#include <DHT.h>                //by Adafruit
 // -------------------------------------------------------------------
 // Archivos *.hpp - Fragmentar el Código
 // ----------------------------------------
@@ -48,6 +59,9 @@ void setup() {
   settingPines();
   //setup WIFI
   wifi_setup();
+  // setup del Time
+  timeSetup();
+
   // Inicializar el Servidor WEB
   InitServer();
   // Inicializamos el Websocket
@@ -89,6 +103,17 @@ void loop() {
   if (millis() - lastWsSend > 1000){
     lastWsSend = millis();
     WsMessage(getJsonIndex(),"","");
+  }
+  //-----------------------------------------------------------------
+  // RTC & NTP
+  //---------------------------------------------------------------------
+  if((WiFi.status() == WL_CONNECTED) && (wifi_mode == WIFI_STA)){  //ntpClient.isTimeSet() se podria agregar
+    ntpClient.update();    
+  }
+  
+  if (millis() - lastTime > 1000){
+    lastTime = millis();
+    WsMessage(getSendJson(getDateTime(), "time"), "", "");
   }
   
 }

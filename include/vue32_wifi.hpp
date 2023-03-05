@@ -1,7 +1,5 @@
 
-#include <WiFi.h>
-#include <DNSServer.h>
-#include <ESPmDNS.h> 
+
 
 const byte DNSSERVER_PORT = 53;
 DNSServer dnsServer;
@@ -13,7 +11,7 @@ IPAddress ap_subnet(255,255,255,0);
 // WiFi.mode(WIFI_AP)       - access point mode: stations can connect to the ESP32
 // WiFi.mode(WIFI_AP_STA)   - access point and a station connected to another access point
 
-int wifi_mode = WIFI_STA;
+//int wifi_mode = WIFI_STA;  -- se declara en el header
 bool wifi_change = false;
 
 unsigned long previousMillisWIFI = 0;

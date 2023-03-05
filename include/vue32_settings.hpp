@@ -60,6 +60,12 @@ boolean settingRead(){
         mqtt_time_interval = jsonSettings["mqtt_time_interval"];
         mqtt_status_send = jsonSettings["mqtt_status_send"];
 
+        // Time settings.json
+        time_ajuste = jsonSettings["time_ajuste"];
+        strlcpy(time_date, jsonSettings["time_date"], sizeof(time_date));
+        time_z_horaria = jsonSettings["time_z_horaria"];
+        strlcpy(time_server, jsonSettings["time_server"], sizeof(time_server));
+
         file.close();
         log("[ INFO ] Lectura de las configuraciones correcta");
         return true;
@@ -80,7 +86,7 @@ void settingsReset(){
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
-    wifi_ip_static = true; // false
+    wifi_ip_static = false; // false
     strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//cambiar a telmex //"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
     strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//cambiar            //"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
     strlcpy(wifi_ipv4, "192.168.1.164", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
@@ -111,8 +117,19 @@ void settingsReset(){
     mqtt_time_send = true;
     mqtt_time_interval = 30000; //3o segundos
     mqtt_status_send = true;
-    log("[ INFO ] Se reiniciaron todos los valores por defecto");    
+    log("[ INFO ] Se reiniciaron todos los valores por defecto");   
+
+    // -------------------------------------------------------------------
+    // Time settings.json
+    // -------------------------------------------------------------------
+    time_ajuste = true;
+    strlcpy(time_date, "2023-03-04T10:09", sizeof(time_date));
+    time_z_horaria = -14400;
+    strlcpy(time_server, "time.nist.gov", sizeof(time_server));
+    log("[ INFO ] Se reiniciaron todos los valores por defecto"); 
 }
+
+
 // -------------------------------------------------------------------
 // Guardar settings.json
 // -------------------------------------------------------------------
@@ -165,6 +182,14 @@ boolean settingsSave(){
         jsonSettings["mqtt_time_send"] = mqtt_time_send;
         jsonSettings["mqtt_time_interval"] = mqtt_time_interval;
         jsonSettings["mqtt_status_send"] = mqtt_status_send; 
+
+        // ---------------------------------------------------------------------------------
+        // TIME settings.json
+        // -------------------------------------------------------------------
+        jsonSettings["time_ajuste"] = time_ajuste;
+        jsonSettings["time_date"] = time_date;
+        jsonSettings["time_z_horaria"] = time_z_horaria;
+        jsonSettings["time_server"] = time_server;
 
         serializeJsonPretty(jsonSettings, file);
         file.close();

@@ -4,7 +4,7 @@
 #include <Update.h>                     //para actualizar el firmware
 
 bool cors = true; //habilita los cruces de origen igual a true
-
+bool contra = false; //habilita la contraseña
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws"); //se instancia ws sobre el puerto ochenta con el /ws
 AsyncEventSource events("/events"); //eventos ws
@@ -27,13 +27,14 @@ AsyncEventSource events("/events"); //eventos ws
 // /api/settings/upload           POST
 // /api/settings/firmware         POST
 // /api/settings/logout           DELETE
+// /api/time                      GET
 // -------------------------------------------------------------------
 // -------------------------------------------------------------------
 // Método PUT Actualizar configuraciones WiFi
 // -------------------------------------------------------------------
 void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
-    /* if(!request->authenticate(device_old_user, device_old_password))
-        return request->requestAuthentication(); */
+    if(!request->authenticate(device_old_user, device_old_password)&&contra)
+        return request->requestAuthentication(); 
     const char* dataType = "application/json"; 
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<768> doc;
@@ -141,8 +142,8 @@ void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
 // Método PUT Cloud Conexión.
 // -------------------------------------------------------------------
 void putRequestCloudConnection(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){  
-    /* if(!request->authenticate(device_old_user, device_old_password)) 
-        return request->requestAuthentication(); */
+    if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+        return request->requestAuthentication(); 
     const char* dataType = "application/json"; 
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<768> doc;
@@ -206,8 +207,8 @@ void putRequestCloudConnection(AsyncWebServerRequest * request, uint8_t *data, s
 // Método PUT Cloud Envio de Datos.
 // -------------------------------------------------------------------
 void putRequestCloudData(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
-    /* if(!request->authenticate(device_old_user, device_old_password)) 
-        return request->requestAuthentication(); */    
+    if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+        return request->requestAuthentication();   
     const char* dataType = "application/json"; //application/json
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<768> doc;
@@ -241,8 +242,8 @@ void putRequestCloudData(AsyncWebServerRequest * request, uint8_t *data, size_t 
 // Método PUT Dispositivo ID
 // -------------------------------------------------------------------
 void putRequestDeviceID(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
-    /* if(!request->authenticate(device_old_user, device_old_password))
-        return request->requestAuthentication(); */    
+    if(!request->authenticate(device_old_user, device_old_password)&&contra)
+        return request->requestAuthentication();     
     const char* dataType = "application/json";
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<96> doc;
@@ -273,8 +274,8 @@ void putRequestDeviceID(AsyncWebServerRequest * request, uint8_t *data, size_t l
 // Método PUT WWW Usuario y Contraseña
 // -------------------------------------------------------------------
 void putRequestUser(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){   
-    /* if(!request->authenticate(device_old_user, device_old_password)) 
-        return request->requestAuthentication();  */   
+    if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+        return request->requestAuthentication();     
     const char* dataType = "application/json";
     String bodyContent = GetBodyContent(data, len);    
     StaticJsonDocument<384> doc;
@@ -375,8 +376,8 @@ void putRequestUser(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
 File file;
 bool opened = false;
 void handleDoUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
-    /* if(!request->authenticate(device_old_user, device_old_password)) 
-        return request->requestAuthentication(); */
+    if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+        return request->requestAuthentication(); 
     const char* dataType = "application/json";
     if (!index) {
         Serial.printf("[ INFO ] Upload Start: %s\n", filename.c_str());
@@ -416,8 +417,8 @@ void handleDoUpload(AsyncWebServerRequest *request, String filename, size_t inde
 // Método POST para la carga del nuevo Firmware OK o SPIFFS OK
 // -------------------------------------------------------------------
 void handleDoFirmware(AsyncWebServerRequest *request, const String& filename, size_t index, uint8_t *data, size_t len, bool final) {
-    /* if(!request->authenticate(device_old_user, device_old_password)) 
-        return request->requestAuthentication(); */    
+    if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+        return request->requestAuthentication();     
     const char* dataType = "application/json";
     // Si el nombre de archivo incluye ( spiffs ), actualiza la partición de spiffs
     int cmd = (filename.indexOf("spiffs") > -1) ? U_PART : U_FLASH;
@@ -454,13 +455,13 @@ void handleDoFirmware(AsyncWebServerRequest *request, const String& filename, si
 }
 
 // -------------------------------------------------------------------
-// Zona API REST        *********************************************
+// Zona Servidor WEB VUE Js *******************************************
 // -------------------------------------------------------------------
 void handleIndex(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "text/html";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, index_html, index_html_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -470,10 +471,10 @@ void handleIndex(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web App.js        *********************************************
 // -------------------------------------------------------------------
 void handleAppJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, app_js, app_js_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -483,10 +484,10 @@ void handleAppJS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Alarmas.js        *********************************************
 // -------------------------------------------------------------------
 void handleAlarmasJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, alarmas_js, alarmas_js_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -496,10 +497,10 @@ void handleAlarmasJS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web cloud.js        *********************************************
 // -------------------------------------------------------------------
 void handleCloudJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, cloud_js, cloud_js_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -509,10 +510,10 @@ void handleCloudJS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web dashmix.js        *********************************************
 // -------------------------------------------------------------------
 void handleDashmixJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, dashmix_js, dashmix_js_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -522,10 +523,10 @@ void handleDashmixJS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Settings.js        *********************************************
 // -------------------------------------------------------------------
 void handleSettingsJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, settings_js, settings_js_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -535,23 +536,39 @@ void handleSettingsJS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web wifi.js        *********************************************
 // -------------------------------------------------------------------
 void handleWifiJS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, wifi_js, wifi_js_length);
     response->addHeader("Content-Encoding", "gzip");
     request->send(response);
 }
 // -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web time.js        *********************************************
+// -------------------------------------------------------------------
+void handleTimeJS(AsyncWebServerRequest *request){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
+        request->requestAuthentication();
+        return;
+    }
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, time_js, time_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
+
+
+
+// -------------------------------------------------------------------
 // Manejo de los Archivos del servidor Web Error404.js        *********************************************
 // -------------------------------------------------------------------
 void handle404JS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "application/javascript";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, page404_js, page404_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -561,10 +578,10 @@ void handle404JS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Dashmix.css        *********************************************
 // -------------------------------------------------------------------
 void handleDashmixCSS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "text/css";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, dashmix_css, dashmix_css_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -574,10 +591,10 @@ void handleDashmixCSS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web App.css        *********************************************
 // -------------------------------------------------------------------
 void handleAppCSS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "text/css";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, app_css, app_css_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -587,10 +604,10 @@ void handleAppCSS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web xeco.css        *********************************************
 // -------------------------------------------------------------------
 void handleXecoCSS(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "text/css";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, xeco_css, xeco_css_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -600,10 +617,10 @@ void handleXecoCSS(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Font fa.regular.woff2        *********************************************
 // -------------------------------------------------------------------
 void handleFaRegularWOFF2(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "font/woff2";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, fa_regular_woff2, fa_regular_woff2_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -613,10 +630,10 @@ void handleFaRegularWOFF2(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Font fa.solid.woff2        *********************************************
 // -------------------------------------------------------------------
 void handleFaSolidWOFF2(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "font/woff2";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, fa_solid_woff2, fa_solid_woff2_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -626,10 +643,10 @@ void handleFaSolidWOFF2(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Font Simple.Icon.woff2        *********************************************
 // -------------------------------------------------------------------
 void handleSimpleIconWOFF2(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "font/woff2";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, Simple_Icons_woff2, Simple_Icons_woff2_length);
     response->addHeader("Content-Encoding", "gzip");
@@ -639,15 +656,67 @@ void handleSimpleIconWOFF2(AsyncWebServerRequest *request){
 // Manejo de los Archivos del servidor Web Favicon.png        *********************************************
 // -------------------------------------------------------------------
 void handleIcon(AsyncWebServerRequest *request){
-    /* if(!request->authenticate(device_old_user, device_old_password)){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
         request->requestAuthentication();
         return;
-    }*/
+    }
     const char* dataType = "image/x-icon";
     AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, favicon_png, favicon_png_length);
     response->addHeader("Content-Encoding", "gzip");
     request->send(response);
 }
+// -------------------------------------------------------------------
+// Método POST Time pero tiene el nombre put
+// -------------------------------------------------------------------
+void putRequestTime(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra)
+        return request->requestAuthentication();  
+    const char* dataType = "application/json";
+    String bodyContent = GetBodyContent(data, len);  
+    StaticJsonDocument<320> doc;
+    DeserializationError error = deserializeJson(doc, bodyContent);
+    if (error) { 
+        request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
+        return;
+    };
+    // -------------------------------------------------------------------
+    // Time settings.json
+    // -------------------------------------------------------------------
+    String s = "";    
+    // Manual - Internet true/false
+    time_ajuste = doc["time_ajuste"].as<bool>();
+    // Fecha - Hora
+    if(doc["time_date"] != ""){
+        s = doc["time_date"].as<String>();
+        s.trim();
+        strlcpy(time_date, s.c_str(), sizeof(time_date));
+        s = "";
+    }
+    // Numero de la zona Horaria
+    if(doc["time_z_horaria"] != ""){
+        time_z_horaria = doc["time_z_horaria"].as<float>()*3600;
+    }
+    // Servidor NTP
+    if(doc["time_server"] != ""){
+        s = doc["time_server"].as<String>();
+        s.trim();
+        strlcpy(time_server, s.c_str(), sizeof(time_server));
+        s = "";
+    }
+    
+    // Save Settings.json
+    if (settingsSave()){
+        request->send(200, dataType, "{ \"save\": true }");   
+        log("[ INFO ] Time Set OK");
+        // Esperar la Transmisión de los datos seriales
+        Serial.flush(); 
+        ESP.restart();     
+    }else{
+        request->send(500, dataType, "{ \"save\": false }");
+    }     
+}
+
+
 
 
 void InitServer(){
@@ -678,8 +747,8 @@ void InitServer(){
     // Método: GET 
     // -------------------------------------------------------------------
     server.on("/api/index", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */        
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication();      
         const char* dataType = "application/json";
         String json = "";
         json = "{";
@@ -721,8 +790,8 @@ void InitServer(){
     // Método: GET 
     // -------------------------------------------------------------------
     server.on("/api/wifi", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication(); 
         const char* dataType = "application/json"; 
         String json = "";
         json = "{";
@@ -763,8 +832,8 @@ void InitServer(){
     // No solicite más de 3-5 segundos. \ ALT + 92 
     // -------------------------------------------------------------------
     server.on("/api/scan", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password))
-            return request->requestAuthentication(); */        
+        if(!request->authenticate(device_old_user, device_old_password)&&contra)
+            return request->requestAuthentication();        
         const char* dataType = "application/json"; 
         String json = "";
         int n = WiFi.scanComplete();
@@ -807,8 +876,8 @@ void InitServer(){
     // Método: GET 
     // -------------------------------------------------------------------
     server.on("/api/cloud", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication();
         const char* dataType = "application/json"; 
         String json = "";
         json = "{";
@@ -852,8 +921,8 @@ void InitServer(){
     // Método: GET 
     // -------------------------------------------------------------------
     server.on("/api/settings/id", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password))
-            return request->requestAuthentication(); */        
+        if(!request->authenticate(device_old_user, device_old_password)&&contra)
+            return request->requestAuthentication();        
         const char* dataType = "application/json"; 
         String json = "";
         json = "{";
@@ -885,8 +954,8 @@ void InitServer(){
     // Método: GET
     // -------------------------------------------------------------------
     server.on("/api/settings/download", HTTP_GET, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication(); 
         const char* dataType = "application/json"; 
         log("[ INFO ] Descarga del archivo settings.json");
         AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/settings.json", dataType, true);
@@ -917,10 +986,40 @@ void InitServer(){
     // Método: DELETE
     // -------------------------------------------------------------------
     server.on("/api/settings/logout", HTTP_DELETE, [](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication(); 
         request->send(401, "application/json", "{ \"session\": false, \"msg\": \"Sesión cerrada correctamente\"}");
     });
+    // ------------------------------------------------------------------
+    // Parámetros de Configuración del Tiempo
+    // url: /api/time
+    // Método: GET
+    // ------------------------------------------------------------------
+    server.on("/api/time", HTTP_GET,[](AsyncWebServerRequest *request){
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication(); 
+        const char* dataType = "application/json";
+        String json = "";
+        json = "{";
+        json += "\"meta\":{ \"serial\": \"" + deviceID() + "\"},";
+        json += "\"data\":";
+            json += "{";
+                time_ajuste ? json += "\"time_ajuste\": true" : json += "\"time_ajuste\": false";
+                json += ",\"time_date\": \""+ String(time_date) + "\""; //2023-03-07T23:47
+                json += ",\"time_z_horaria\": \"" + String(time_z_horaria) + "\"";
+                json += ",\"time_server\": \""+ String(time_server) + "\"";
+            json += "},";
+        json += "\"code\": 1 ";
+        json += "}";
+        request->send(200, dataType, json);
+    });
+    //--------------------------------------------------------------------------------
+    //Parámetros de Configuración del Tiempo guardar cambios
+    //url: /api/time
+    //Método: POST
+    //---------------------------------------------------------------------------------
+    server.on("/api/time", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestTime);
+
 
     // -------------------------------------------------------------------
     // Zona Servidor Web VUE
@@ -956,35 +1055,40 @@ void InitServer(){
     // -------------------------------------------------------------------
     server.on("/js/wifi.js",HTTP_GET,handleWifiJS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./js/page404.js     8
+    // Carga de Archivos complementarios ./js/time.js      8
+    // -------------------------------------------------------------------
+    server.on("/js/time.js",HTTP_GET,handleTimeJS);
+
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/page404.js     9
     // -------------------------------------------------------------------
     server.on("/js/page404.js",HTTP_GET,handle404JS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/dashmix.min.css      9
+    // Carga de Archivos complementarios ./css/dashmix.min.css      10
     // -------------------------------------------------------------------
     server.on("/css/dashmix.min.css",HTTP_GET,handleDashmixCSS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/app.css      10
+    // Carga de Archivos complementarios ./css/app.css      11
     // -------------------------------------------------------------------
     server.on("/css/app.css",HTTP_GET,handleAppCSS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/xeco.css      11
+    // Carga de Archivos complementarios ./css/xeco.css      12
     // -------------------------------------------------------------------
     server.on("/css/xeco.min.css",HTTP_GET,handleXecoCSS);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/fa-regular-400.woff2    12
+    // Cargar de Archivos complementarios ./css/fa-regular-400.woff2    13
     // ------------------------------------------------------------------- 
     server.on("/css/fa-regular-400.woff2",HTTP_GET,handleFaRegularWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/fa-solid-900.woff2      13
+    // Cargar de Archivos complementarios ./css/fa-solid-900.woff2      14
     // ------------------------------------------------------------------- 
     server.on("/css/fa-solid-900.woff2",HTTP_GET,handleFaSolidWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/Simple-Line-Icons.woff2     14
+    // Cargar de Archivos complementarios ./css/Simple-Line-Icons.woff2     15
     // ------------------------------------------------------------------- 
     server.on("/css/Simple-Line-Icons.woff2",HTTP_GET,handleSimpleIconWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./img/favicon.png           15
+    // Cargar de Archivos complementarios ./img/favicon.png           16
     // ------------------------------------------------------------------- 
     server.on("/img/favicon.png",HTTP_GET,handleIcon);
 
@@ -993,11 +1097,13 @@ void InitServer(){
     // url: "desconocido"
     // -------------------------------------------------------------------
     server.onNotFound([](AsyncWebServerRequest *request){
-        /* if(!request->authenticate(device_old_user, device_old_password)) 
-            return request->requestAuthentication(); */
-            
-        request->send(302, "application/json", "{ \"status\": 404, \"msg\": \"Error 404, página no encontrada\"}");
-        return;
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication(); 
+        const char* dataType = "text/html";
+        AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, index_html, index_html_length);
+        response->addHeader("Content-Encoding", "gzip");
+        request->send(response);
+        //return;
     });
     // -------------------------------------------------------------------
     // Iniciar el Servidor WEB + CORS

@@ -2,6 +2,7 @@
 
 void WsMessage(String msg, String icon, String Type);
 String getSendJson(String msg, String type);
+void setDyMsYr();
 // -----------------------------------------------------
 // Genera un log en el puerto Serial
 // -----------------------------------------------------
@@ -262,5 +263,99 @@ void printProgress(size_t prog, size_t sz){
             break;
     }
     Serial.printf("[ INFO ] Progreso de la Actualizacion al : %d%%\n", progress);
+}
+//------------------------------------------------------------------
+// Fecha y Hora del Sistema
+//------------------------------------------------------------------
+//------------------------------------------------------------------
+// Setup de fecha y Hora Auto / Manual
+//------------------------------------------------------------------
+void timeSetup(){
+    
+    setDyMsYr();
 
+    if(time_ajuste){
+        rtc.setTime(time_sc, time_mn, time_hr, time_dy, time_mt, time_yr); 
+        log("[ INFO ] RTC set OK");
+    // datos desde el Internet
+    }else{
+        if ((WiFi.status() == WL_CONNECTED) && (wifi_mode == WIFI_STA)){
+            /* WiFi Conectada */
+            ntpClient.begin();
+            ntpClient.setPoolServerName(time_server); //servidor 
+            ntpClient.setTimeOffset(time_z_horaria);    // zona horaria
+            ntpClient.update(); 
+            log("[ INFO ] NTP set OK");
+        }else{
+            /* Si no hay conexión a WiFi - No Internet */
+            rtc.setTime(time_sc, time_mn, time_hr, time_dy, time_mt, time_yr); 
+            log("[ INFO ] RTC set OK");
+        }
+    }
+}
+
+// -------------------------------------------------------------------
+// Función para seteo de Día, Mes y Año a las variables
+// -------------------------------------------------------------------
+void setDyMsYr(){
+    // 2022-09-07T23:47
+    String str_date = time_date;
+    time_sc = 0;
+    time_mn = str_date.substring(14, 16).toInt(); //47
+    time_hr = str_date.substring(11, 13).toInt(); //23
+    time_dy = str_date.substring(8, 10).toInt(); 
+    time_mt = str_date.substring(5, 7).toInt();   
+    time_yr = str_date.substring(0, 4).toInt();  //2023
+}
+
+// -------------------------------------------------------------------
+// Fecha y Hora del Sistema
+// -------------------------------------------------------------------
+String getDateTime(){
+    
+    char fecha[20];
+    int dia = 0;
+    int mes = 0;
+    int anio = 0;
+    int hora = 0;
+    int minuto = 0;
+    int segundo = 0;
+
+    if(time_ajuste){ // Manual
+        /* RTC */
+        dia = rtc.getDay();
+        mes = rtc.getMonth()+1;
+        anio = rtc.getYear();
+        hora = rtc.getHour(true);
+        minuto = rtc.getMinute();
+        segundo = rtc.getSecond();
+    }else{ // Automatico
+        if((WiFi.status() == WL_CONNECTED) && (wifi_mode == WIFI_STA)){
+            /* NTP */
+            if(ntpClient.isTimeSet()) {
+                String formattedTime = ntpClient.getFormattedTime();
+                // FORMAR FECHA DD-MM-YYYY DESDE EPOCH
+                time_t epochTime = ntpClient.getEpochTime();
+                struct tm *now = gmtime ((time_t *)&epochTime); 
+                anio = now->tm_year+1900;
+                mes =  now->tm_mon+1;
+                dia =  now->tm_mday;
+                // 12:00:00
+                hora = ntpClient.getHours();
+                minuto = ntpClient.getMinutes();
+                segundo = ntpClient.getSeconds();
+            }  
+        }else{
+            /* RTC */
+            dia = rtc.getDay();
+            mes = rtc.getMonth()+1;
+            anio = rtc.getYear();
+            hora = rtc.getHour(true);
+            minuto = rtc.getMinute();
+            segundo = rtc.getSecond();
+        }                   
+    }	
+    sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d:%.2d", dia, mes, anio, hora, minuto, segundo);
+    //sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d", dia, mes, anio, hora, minuto);
+	return String( fecha );
 }
