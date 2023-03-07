@@ -95,6 +95,8 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 		log("[ INFO ] ¡Equipo reiniciado correctamente!");
 		Serial.flush(); 
 		ESP.restart();
+	}else{
+		OnOffRelays(command);
 	}
 	
 }

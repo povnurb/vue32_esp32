@@ -1,3 +1,5 @@
+// Variables globales del ESP32
+
 // ---------------------------------------------------
 // Definiciones
 // ---------------------------------------------------
@@ -100,5 +102,22 @@ NTPClient ntpClient(ntpUDP);
 long lastTime = 0;          // Variable para tiempo de envio por WS
 
 // ---------------------------------------------------
+// Zona de Relays
+// ---------------------------------------------------
+bool        RELAY_STATUS;
+int         RELAY_LOGICA;
+uint8_t     RELAY_PIN;
+String      RELAY_NAME;
+String      RELAY_DESCRIPTION;
+// ---------------------------------------------------
 // Zona de alarmas
 // ---------------------------------------------------
+bool    ALARM_STATUS1, ALARM_STATUS2, ALARM_STATUS3, ALARM_STATUS4;
+bool    ALARM_STATUS5, ALARM_STATUS6, ALARM_STATUS7, ALARM_STATUS8;
+// guardar la logica, el pin y el nombre en el vue32_settings en lectura renglon 77
+int     ALARM_LOGICA1, ALARM_LOGICA2, ALARM_LOGICA3, ALARM_LOGICA4;
+int     ALARM_LOGICA5, ALARM_LOGICA6, ALARM_LOGICA7, ALARM_LOGICA8;
+uint8_t ALARM_PIN1, ALARM_PIN2, ALARM_PIN3, ALARM_PIN4;
+uint8_t ALARM_PIN5, ALARM_PIN6, ALARM_PIN7, ALARM_PIN8;
+String  ALARM_NAME1, ALARM_NAME2, ALARM_NAME3, ALARM_NAME4;
+String  ALARM_NAME5, ALARM_NAME6, ALARM_NAME7, ALARM_NAME8;

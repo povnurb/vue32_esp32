@@ -9,9 +9,10 @@ String mqtt_data = "";
 
 long lastMqttReconnectAttempt = 0; //envio de mensajes no bloqueates
 long lastMsg = 0;
-//funcion que recive los mensajes de mqtt
+//funcion que recive los mensajes de mqtt y definicion de funciones
 void callback(char *topic, byte *payload, unsigned int length);
 String Json();
+void OnOffRelays(String command);
 
 char    willTopic[150];
 bool    willQoS      = 0; //calidad del servicio
@@ -100,6 +101,8 @@ void callback(char *topic, byte *payload, unsigned int length){
     mensaje.trim();
     log("[ INFO ] Topico -->" + str_topic);
     log("[ INFO ] Mensaje -->" + mensaje);
+    // mandar el comando a la función
+    OnOffRelays(mensaje);
 }
 // -------------------------------------------------------------------
 // Manejo de los Mensajes Salientes

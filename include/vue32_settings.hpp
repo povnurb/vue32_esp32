@@ -66,6 +66,19 @@ boolean settingRead(){
         time_z_horaria = jsonSettings["time_z_horaria"];
         strlcpy(time_server, jsonSettings["time_server"], sizeof(time_server));
 
+        //----------------------------------------------
+        // Relay settings.json
+        //----------------------------------------------
+        RELAY_STATUS = jsonSettings["RELAY_STATUS"].as<bool>();
+        RELAY_PIN = jsonSettings["RELAY_PIN"].as<int>();
+        RELAY_LOGICA = jsonSettings["RELAY_LOGICA"].as<int>();
+        RELAY_NAME = jsonSettings["RELAY_NAME"].as<String>();
+        RELAY_DESCRIPTION = jsonSettings["RELAY_DESCRIPTION"].as<String>();
+
+        // ---------------------------------------------------------
+        // AGREGAR ZONA DE ALARMAS
+        // ---------------------------------------------------------
+
         file.close();
         log("[ INFO ] Lectura de las configuraciones correcta");
         return true;
@@ -126,9 +139,19 @@ void settingsReset(){
     strlcpy(time_date, "2023-03-04T10:09", sizeof(time_date));
     time_z_horaria = -14400;
     strlcpy(time_server, "time.nist.gov", sizeof(time_server));
+    // ------------------------------------------------------------
+    // Relay settings.json
+    // ------------------------------------------------------------
+    RELAY_STATUS = false;
+    RELAY_PIN = 33;
+    RELAY_LOGICA = 0;
+    RELAY_NAME = "RELAY D33";
+    RELAY_DESCRIPTION = "Control de Iluminación";
+    // ------------------------------------------------------------
+    // Zona de recuperacion de Alarmas
+    // ------------------------------------------------------------
     log("[ INFO ] Se reiniciaron todos los valores por defecto"); 
 }
-
 
 // -------------------------------------------------------------------
 // Guardar settings.json
@@ -190,6 +213,14 @@ boolean settingsSave(){
         jsonSettings["time_date"] = time_date;
         jsonSettings["time_z_horaria"] = time_z_horaria;
         jsonSettings["time_server"] = time_server;
+        // --------------------------------------------------------------
+        // Relay settings.json
+        // --------------------------------------------------------------
+        jsonSettings["RELAY_STATUS"] = RELAY_STATUS;
+        jsonSettings["RELAY_PIN"] = RELAY_PIN;
+        jsonSettings["RELAY_LOGICA"] = RELAY_LOGICA;
+        jsonSettings["RELAY_NAME"] = RELAY_NAME;
+        jsonSettings["RELAY_DESCRIPTION"] =RELAY_DESCRIPTION;
 
         serializeJsonPretty(jsonSettings, file);
         file.close();

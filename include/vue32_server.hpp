@@ -28,6 +28,9 @@ AsyncEventSource events("/events"); //eventos ws
 // /api/settings/firmware         POST
 // /api/settings/logout           DELETE
 // /api/time                      GET
+// /api/time                      POST
+// /api/action                    GET
+// /api/action                    POST
 // -------------------------------------------------------------------
 // -------------------------------------------------------------------
 // Método PUT Actualizar configuraciones WiFi
@@ -558,6 +561,19 @@ void handleTimeJS(AsyncWebServerRequest *request){
     response->addHeader("Content-Encoding", "gzip");
     request->send(response);
 }
+// -------------------------------------------------------------------
+// Manejo de los Archivos del servidor Web action.js        *********************************************
+// -------------------------------------------------------------------
+void handleActionJS(AsyncWebServerRequest *request){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra){
+        request->requestAuthentication();
+        return;
+    }
+    const char* dataType = "application/javascript";
+    AsyncWebServerResponse *response = request->beginResponse_P(200,dataType, action_js, action_js_length);
+    response->addHeader("Content-Encoding", "gzip");
+    request->send(response);
+}
 
 
 
@@ -715,6 +731,62 @@ void putRequestTime(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
         request->send(500, dataType, "{ \"save\": false }");
     }     
 }
+// -------------------------------------------------------------------
+// Método PUT Action
+// -------------------------------------------------------------------
+void putRequestAction(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra)
+        return request->requestAuthentication();    
+
+    const char* dataType = "application/json";
+
+    String bodyContent = GetBodyContent(data, len);   
+
+    StaticJsonDocument<320> doc;
+
+    DeserializationError error = deserializeJson(doc, bodyContent);
+    if (error) { 
+        request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
+        return;
+    };
+    // -------------------------------------------------------------------
+    // Relay settings.json
+    // -------------------------------------------------------------------
+    String s = "";    
+
+    // Pin del ESP32
+    RELAY_PIN = doc["RELAY_PIN"].as<int>();
+
+    // Normal - Invertida true/false
+    RELAY_LOGICA = doc["RELAY_LOGICA"].as<int>();
+
+    // Nombre
+    if(doc["RELAY_NAME"] != ""){
+        s = doc["RELAY_NAME"].as<String>();
+        s.trim();
+        RELAY_NAME = s;
+        s = "";
+    }
+
+    // Descripción
+    if(doc["RELAY_DESCRIPTION"] != ""){
+        s = doc["RELAY_DESCRIPTION"].as<String>();
+        s.trim();
+        RELAY_DESCRIPTION = s;
+        s = "";
+    }
+ 
+    // Save Settings.json
+    if (settingsSave()){
+        request->send(200, dataType, "{ \"save\": true }");   
+        log("[ INFO ] Action Set OK");
+        // Esperar la Transmisión de los datos seriales
+        Serial.flush(); 
+        ESP.restart();     
+    }else{
+        request->send(500, dataType, "{ \"save\": false }");
+    }     
+}
 
 
 
@@ -739,6 +811,9 @@ void InitServer(){
     // /api/settings/upload           POST
     // /api/settings/firmware         POST
     // /api/settings/logout           DELETE
+    // /api/time                      GET
+    // /api/action                    GET
+    // /api/action                    POST
     // -------------------------------------------------------------------
     
     // -------------------------------------------------------------------
@@ -1013,13 +1088,42 @@ void InitServer(){
         json += "}";
         request->send(200, dataType, json);
     });
+    // ------------------------------------------------------------------
+    // Parámetros de Configuración de las acciones
+    // url: /api/action
+    // Método: GET
+    // ------------------------------------------------------------------
+    server.on("/api/action", HTTP_GET, [](AsyncWebServerRequest *request){
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication();        
+        const char* dataType = "application/json"; 
+        String json = "";
+        json = "{";
+        json += "\"meta\": { \"serial\": \"" + deviceID() + "\"},";
+        json += "\"data\":";
+            json += "{";       
+                RELAY_STATUS ? json += "\"RELAY_STATUS\": true" : json += "\"RELAY_STATUS\": false";
+                json += ",\"RELAY_PIN\":"+ String(RELAY_PIN); 
+                RELAY_LOGICA ? json += ",\"RELAY_LOGICA\": true" : json += ",\"RELAY_LOGICA\": false";
+                json += ",\"RELAY_NAME\": \""+ RELAY_NAME + "\""; 
+                json += ",\"RELAY_DESCRIPTION\": \""+ RELAY_DESCRIPTION + "\""; 
+            json += "},";  
+        json += "\"code\": 1 ";
+        json += "}";    
+        request->send(200, dataType, json);
+    });
     //--------------------------------------------------------------------------------
     //Parámetros de Configuración del Tiempo guardar cambios
     //url: /api/time
     //Método: POST
     //---------------------------------------------------------------------------------
     server.on("/api/time", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestTime);
-
+    // -------------------------------------------------------------------
+    // Parámetros de Configuración de las acciones
+    // url: /api/action
+    // Método: POST
+    // -------------------------------------------------------------------
+    server.on("/api/action", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestAction);
 
     // -------------------------------------------------------------------
     // Zona Servidor Web VUE
@@ -1058,37 +1162,41 @@ void InitServer(){
     // Carga de Archivos complementarios ./js/time.js      8
     // -------------------------------------------------------------------
     server.on("/js/time.js",HTTP_GET,handleTimeJS);
+    // -------------------------------------------------------------------
+    // Carga de Archivos complementarios ./js/action.js      9
+    // -------------------------------------------------------------------
+    server.on("/js/action.js",HTTP_GET,handleActionJS);
 
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./js/page404.js     9
+    // Carga de Archivos complementarios ./js/page404.js     10
     // -------------------------------------------------------------------
     server.on("/js/page404.js",HTTP_GET,handle404JS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/dashmix.min.css      10
+    // Carga de Archivos complementarios ./css/dashmix.min.css      11
     // -------------------------------------------------------------------
     server.on("/css/dashmix.min.css",HTTP_GET,handleDashmixCSS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/app.css      11
+    // Carga de Archivos complementarios ./css/app.css      12
     // -------------------------------------------------------------------
     server.on("/css/app.css",HTTP_GET,handleAppCSS);
     // -------------------------------------------------------------------
-    // Carga de Archivos complementarios ./css/xeco.css      12
+    // Carga de Archivos complementarios ./css/xeco.css      13
     // -------------------------------------------------------------------
     server.on("/css/xeco.min.css",HTTP_GET,handleXecoCSS);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/fa-regular-400.woff2    13
+    // Cargar de Archivos complementarios ./css/fa-regular-400.woff2    14
     // ------------------------------------------------------------------- 
     server.on("/css/fa-regular-400.woff2",HTTP_GET,handleFaRegularWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/fa-solid-900.woff2      14
+    // Cargar de Archivos complementarios ./css/fa-solid-900.woff2      15
     // ------------------------------------------------------------------- 
     server.on("/css/fa-solid-900.woff2",HTTP_GET,handleFaSolidWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./css/Simple-Line-Icons.woff2     15
+    // Cargar de Archivos complementarios ./css/Simple-Line-Icons.woff2     16
     // ------------------------------------------------------------------- 
     server.on("/css/Simple-Line-Icons.woff2",HTTP_GET,handleSimpleIconWOFF2);
     // -------------------------------------------------------------------
-    // Cargar de Archivos complementarios ./img/favicon.png           16
+    // Cargar de Archivos complementarios ./img/favicon.png           17
     // ------------------------------------------------------------------- 
     server.on("/img/favicon.png",HTTP_GET,handleIcon);
 
