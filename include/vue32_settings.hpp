@@ -76,8 +76,32 @@ boolean settingRead(){
         RELAY_DESCRIPTION = jsonSettings["RELAY_DESCRIPTION"].as<String>();
 
         // ---------------------------------------------------------
-        // AGREGAR ZONA DE ALARMAS
+        //  ZONA DE ALARMAS
         // ---------------------------------------------------------
+        ALARM_LOGICA1 = jsonSettings["ALARM_LOGICA1"].as<bool>();
+        ALARM_NAME1 = jsonSettings["ALARM_NAME1"].as<String>();
+        ALARM_PIN1 = jsonSettings["ALARM_PIN1"].as<int>();
+        ALARM_LOGICA2 = jsonSettings["ALARM_LOGICA2"].as<bool>();
+        ALARM_NAME2 = jsonSettings["ALARM_NAME2"].as<String>();
+        ALARM_PIN2 = jsonSettings["ALARM_PIN2"].as<int>();
+        ALARM_LOGICA3 = jsonSettings["ALARM_LOGICA3"].as<bool>();
+        ALARM_NAME3 = jsonSettings["ALARM_NAME3"].as<String>();
+        ALARM_PIN3 = jsonSettings["ALARM_PIN3"].as<int>();
+        ALARM_LOGICA4 = jsonSettings["ALARM_LOGICA4"].as<bool>();
+        ALARM_NAME4 = jsonSettings["ALARM_NAME4"].as<String>();
+        ALARM_PIN4 = jsonSettings["ALARM_PIN4"].as<int>();
+        ALARM_LOGICA5 = jsonSettings["ALARM_LOGICA5"].as<bool>();
+        ALARM_NAME5 = jsonSettings["ALARM_NAME5"].as<String>();
+        ALARM_PIN5 = jsonSettings["ALARM_PIN5"].as<int>();
+        ALARM_LOGICA6 = jsonSettings["ALARM_LOGICA6"].as<bool>();
+        ALARM_NAME6 = jsonSettings["ALARM_NAME6"].as<String>();
+        ALARM_PIN6 = jsonSettings["ALARM_PIN6"].as<int>();
+        ALARM_LOGICA7 = jsonSettings["ALARM_LOGICA7"].as<bool>();
+        ALARM_NAME7 = jsonSettings["ALARM_NAME7"].as<String>();
+        ALARM_PIN7 = jsonSettings["ALARM_PIN7"].as<int>();
+        ALARM_LOGICA8 = jsonSettings["ALARM_LOGICA8"].as<bool>();
+        ALARM_NAME8 = jsonSettings["ALARM_NAME8"].as<String>();
+        ALARM_PIN8 = jsonSettings["ALARM_PIN8"].as<int>();
 
         file.close();
         log("[ INFO ] Lectura de las configuraciones correcta");
@@ -100,8 +124,8 @@ void settingsReset(){
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
     wifi_ip_static = false; // false
-    strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//cambiar a telmex //"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
-    strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//cambiar            //"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
+    strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
+    strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
     strlcpy(wifi_ipv4, "192.168.1.164", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
     strlcpy(wifi_subnet, "255.255.255.0", sizeof(wifi_subnet));
     strlcpy(wifi_gateway, "192.168.1.254", sizeof(wifi_gateway));//192.168.1.254
@@ -150,6 +174,30 @@ void settingsReset(){
     // ------------------------------------------------------------
     // Zona de recuperacion de Alarmas
     // ------------------------------------------------------------
+    ALARM_LOGICA1 = false;
+    ALARM_NAME1 = "ALARMA 1";
+    ALARM_PIN1 = 5;
+    ALARM_LOGICA2 = false;
+    ALARM_PIN2 = 14;
+    ALARM_NAME2 = "ALARMA 2";
+    ALARM_LOGICA3 = false;
+    ALARM_PIN3 = 16;
+    ALARM_NAME3 = "ALARMA 3";
+    ALARM_LOGICA4 = false;
+    ALARM_PIN4 = 17;
+    ALARM_NAME4 = "ALARMA 4";
+    ALARM_LOGICA5 = false;
+    ALARM_PIN5 = 18;
+    ALARM_NAME5 = "ALARMA 5";
+    ALARM_LOGICA6 = false;
+    ALARM_PIN6 = 25;
+    ALARM_NAME6 = "ALARMA 6";
+    ALARM_LOGICA7 = false;
+    ALARM_PIN7 = 26;
+    ALARM_NAME7 = "ALARMA 7";
+    ALARM_LOGICA8 = false;
+    ALARM_PIN8 = 27;
+    ALARM_NAME8 = "ALARMA 8";
     log("[ INFO ] Se reiniciaron todos los valores por defecto"); 
 }
 
@@ -221,6 +269,34 @@ boolean settingsSave(){
         jsonSettings["RELAY_LOGICA"] = RELAY_LOGICA;
         jsonSettings["RELAY_NAME"] = RELAY_NAME;
         jsonSettings["RELAY_DESCRIPTION"] =RELAY_DESCRIPTION;
+        // --------------------------------------------------------------
+        // ALARMAS settings.json
+        // --------------------------------------------------------------
+        jsonSettings["ALARM_LOGICA1"] = ALARM_LOGICA1;
+        jsonSettings["ALARM_NAME1"] = ALARM_NAME1;
+        jsonSettings["ALARM_PIN1"] = ALARM_PIN1;
+        jsonSettings["ALARM_LOGICA2"] = ALARM_LOGICA2;
+        jsonSettings["ALARM_NAME2"] = ALARM_NAME2;
+        jsonSettings["ALARM_PIN2"] = ALARM_PIN2;
+        jsonSettings["ALARM_LOGICA3"] = ALARM_LOGICA3;
+        jsonSettings["ALARM_NAME3"] = ALARM_NAME3;
+        jsonSettings["ALARM_PIN3"] = ALARM_PIN3;
+        jsonSettings["ALARM_LOGICA4"] = ALARM_LOGICA4;
+        jsonSettings["ALARM_NAME4"] = ALARM_NAME4;
+        jsonSettings["ALARM_PIN4"] = ALARM_PIN4;
+        jsonSettings["ALARM_LOGICA5"] = ALARM_LOGICA5;
+        jsonSettings["ALARM_NAME5"] = ALARM_NAME5;
+        jsonSettings["ALARM_PIN5"] = ALARM_PIN5;
+        jsonSettings["ALARM_LOGICA6"] = ALARM_LOGICA6;
+        jsonSettings["ALARM_NAME6"] = ALARM_NAME6;
+        jsonSettings["ALARM_PIN6"] = ALARM_PIN6;
+        jsonSettings["ALARM_LOGICA7"] = ALARM_LOGICA7;
+        jsonSettings["ALARM_NAME7"] = ALARM_NAME7;
+        jsonSettings["ALARM_PIN7"] = ALARM_PIN7;
+        jsonSettings["ALARM_LOGICA8"] = ALARM_LOGICA8;
+        jsonSettings["ALARM_NAME8"] = ALARM_NAME8;
+        jsonSettings["ALARM_PIN8"] = ALARM_PIN8;
+
 
         serializeJsonPretty(jsonSettings, file);
         file.close();

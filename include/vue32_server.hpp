@@ -814,6 +814,7 @@ void InitServer(){
     // /api/time                      GET
     // /api/action                    GET
     // /api/action                    POST
+    // /api/alarm                     GET
     // -------------------------------------------------------------------
     
     // -------------------------------------------------------------------
@@ -1107,6 +1108,81 @@ void InitServer(){
                 RELAY_LOGICA ? json += ",\"RELAY_LOGICA\": true" : json += ",\"RELAY_LOGICA\": false";
                 json += ",\"RELAY_NAME\": \""+ RELAY_NAME + "\""; 
                 json += ",\"RELAY_DESCRIPTION\": \""+ RELAY_DESCRIPTION + "\""; 
+            json += "},";  
+        json += "\"code\": 1 ";
+        json += "}";    
+        request->send(200, dataType, json);
+    });
+    // ------------------------------------------------------------------
+    // Parámetros de Configuración ALARMAS
+    // url: /api/alarmas
+    // Método: GET ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ------------------------------------------------------------------
+    server.on("/api/alarmas", HTTP_GET, [](AsyncWebServerRequest *request){
+        if(!request->authenticate(device_old_user, device_old_password)&&contra) 
+            return request->requestAuthentication();        
+        const char* dataType = "application/json"; 
+        String json = "";
+        json = "{";
+        json += "\"meta\": { \"serial\": \"" + deviceID() + "\"},";
+        json += "\"data\":";
+            json += "{";       
+                ALARM_STATUS1 ? json += "\"ALARM_STATUS1\": true" : json += "\"ALARM_STATUS1\": false";
+                json += ",\"ALARM_PIN1\":"+ String(ALARM_PIN1); 
+                ALARM_LOGICA1 ? json += ",\"ALARM_LOGICA1\": true" : json += ",\"ALARM_LOGICA1\": false";
+                json += ",\"ALARM_NAME1\": \""+ ALARM_NAME1 + "\""; 
+                json += ",\"ALARM_TIMEON1\": \""+ ALARM_TIMEON1 + "\"";
+                json += ",\"ALARM_TIMEOFF1\": \""+ ALARM_TIMEOFF1 + "\"";
+                json += ",\"ALARM_CONT1\":"+ String(ALARM_CONT1);
+                ALARM_STATUS2 ? json += ",\"ALARM_STATUS2\": true" : json += ",\"ALARM_STATUS2\": false";
+                json += ",\"ALARM_PIN2\":"+ String(ALARM_PIN2); 
+                ALARM_LOGICA2 ? json += ",\"ALARM_LOGICA2\": true" : json += ",\"ALARM_LOGICA2\": false";
+                json += ",\"ALARM_NAME2\": \""+ ALARM_NAME2 + "\""; 
+                json += ",\"ALARM_TIMEON2\": \""+ ALARM_TIMEON2 + "\"";
+                json += ",\"ALARM_TIMEOFF2\": \""+ ALARM_TIMEOFF2 + "\"";
+                json += ",\"ALARM_CONT2\":"+ String(ALARM_CONT2);
+                ALARM_STATUS3 ? json += ",\"ALARM_STATUS3\": true" : json += ",\"ALARM_STATUS3\": false";
+                json += ",\"ALARM_PIN3\":"+ String(ALARM_PIN3); 
+                ALARM_LOGICA3 ? json += ",\"ALARM_LOGICA3\": true" : json += ",\"ALARM_LOGICA3\": false";
+                json += ",\"ALARM_NAME3\": \""+ ALARM_NAME3 + "\""; 
+                json += ",\"ALARM_TIMEON3\": \""+ ALARM_TIMEON3 + "\"";
+                json += ",\"ALARM_TIMEOFF3\": \""+ ALARM_TIMEOFF3 + "\"";
+                json += ",\"ALARM_CONT3\":"+ String(ALARM_CONT3);
+                ALARM_STATUS4 ? json += ",\"ALARM_STATUS4\": true" : json += ",\"ALARM_STATUS4\": false";
+                json += ",\"ALARM_PIN4\":"+ String(ALARM_PIN4); 
+                ALARM_LOGICA4 ? json += ",\"ALARM_LOGICA4\": true" : json += ",\"ALARM_LOGICA4\": false";
+                json += ",\"ALARM_NAME4\": \""+ ALARM_NAME4 + "\""; 
+                json += ",\"ALARM_TIMEON4\": \""+ ALARM_TIMEON4 + "\"";
+                json += ",\"ALARM_TIMEOFF4\": \""+ ALARM_TIMEOFF4 + "\"";
+                json += ",\"ALARM_CONT4\":"+ String(ALARM_CONT4); 
+                ALARM_STATUS5 ? json += ",\"ALARM_STATUS5\": true" : json += ",\"ALARM_STATUS5\": false";
+                json += ",\"ALARM_PIN5\":"+ String(ALARM_PIN5); 
+                ALARM_LOGICA5 ? json += ",\"ALARM_LOGICA5\": true" : json += ",\"ALARM_LOGICA5\": false";
+                json += ",\"ALARM_NAME5\": \""+ ALARM_NAME5 + "\""; 
+                json += ",\"ALARM_TIMEON5\": \""+ ALARM_TIMEON5 + "\"";
+                json += ",\"ALARM_TIMEOFF5\": \""+ ALARM_TIMEOFF5 + "\"";
+                json += ",\"ALARM_CONT5\":"+ String(ALARM_CONT5);
+                ALARM_STATUS6 ? json += ",\"ALARM_STATUS6\": true" : json += ",\"ALARM_STATUS6\": false";
+                json += ",\"ALARM_PIN6\":"+ String(ALARM_PIN6); 
+                ALARM_LOGICA6 ? json += ",\"ALARM_LOGICA6\": true" : json += ",\"ALARM_LOGICA6\": false";
+                json += ",\"ALARM_NAME6\": \""+ ALARM_NAME6 + "\""; 
+                json += ",\"ALARM_TIMEON6\": \""+ ALARM_TIMEON6 + "\"";
+                json += ",\"ALARM_TIMEOFF6\": \""+ ALARM_TIMEOFF6 + "\"";
+                json += ",\"ALARM_CONT6\":"+ String(ALARM_CONT6);
+                ALARM_STATUS7 ? json += ",\"ALARM_STATUS7\": true" : json += ",\"ALARM_STATUS7\": false";
+                json += ",\"ALARM_PIN7\":"+ String(ALARM_PIN7); 
+                ALARM_LOGICA7 ? json += ",\"ALARM_LOGICA7\": true" : json += ",\"ALARM_LOGICA7\": false";
+                json += ",\"ALARM_NAME7\": \""+ ALARM_NAME7 + "\""; 
+                json += ",\"ALARM_TIMEON7\": \""+ ALARM_TIMEON7 + "\"";
+                json += ",\"ALARM_TIMEOFF7\": \""+ ALARM_TIMEOFF7 + "\"";
+                json += ",\"ALARM_CONT7\":"+ String(ALARM_CONT7);
+                ALARM_STATUS8 ? json += ",\"ALARM_STATUS8\": true" : json += ",\"ALARM_STATUS8\": false";
+                json += ",\"ALARM_PIN8\":"+ String(ALARM_PIN8); 
+                ALARM_LOGICA8 ? json += ",\"ALARM_LOGICA8\": true" : json += ",\"ALARM_LOGICA8\": false";
+                json += ",\"ALARM_NAME8\": \""+ ALARM_NAME8 + "\""; 
+                json += ",\"ALARM_TIMEON8\": \""+ ALARM_TIMEON8 + "\"";
+                json += ",\"ALARM_TIMEOFF8\": \""+ ALARM_TIMEOFF8 + "\"";
+                json += ",\"ALARM_CONT8\":"+ String(ALARM_CONT8);
             json += "},";  
         json += "\"code\": 1 ";
         json += "}";    
