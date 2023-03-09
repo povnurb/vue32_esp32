@@ -5,6 +5,8 @@ boolean settingSave();  //salva
 
 boolean settingRead(){
     DynamicJsonDocument jsonSettings(capacitySettings);
+    //DynamicJsonDocument jsonSettings(3000);
+    
     File file = SPIFFS.open("/settings.json", "r");
     if(deserializeJson(jsonSettings, file)){ //si ocurre un error manda un verdadero asi trabaja la libreria
         settingsReset();

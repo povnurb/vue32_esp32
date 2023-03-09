@@ -90,13 +90,17 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 			ESP.restart(); //reinicia el esp
 		}
 	}else if(strcmp(command.c_str(), "restart") == 0){
-		log("[ INFO ] Commando por WS => " + command);	
 		WsMessage("¡Equipo reiniciado correctamente!","redo-alt","info");
+		log("[ INFO ] Commando por WS => " + command);	
+		Serial.flush(); 
 		log("[ INFO ] ¡Equipo reiniciado correctamente!");
 		Serial.flush(); 
 		ESP.restart();
 	}else{
+		//hacer un else if
+		log("[ INFO ] Commando por WS => " + command);
 		OnOffRelays(command);
+		
 	}
 	
 }
@@ -104,7 +108,6 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 // Función enviar JSON por Websocket 
 // -------------------------------------------------------------------
 void WsMessage(String msg, String icon, String Type){
-	
 	if(strcmp(Type.c_str(), "info") == 0){
 		String response;
 		StaticJsonDocument<300> doc;
@@ -113,6 +116,8 @@ void WsMessage(String msg, String icon, String Type){
 		doc["icon"] = icon;
 		serializeJson(doc, response);
 		ws.textAll(response);
+		log(response);
+		Serial.flush(); 
 	}else{
 		ws.textAll(msg);
 	}

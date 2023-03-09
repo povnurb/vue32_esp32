@@ -9,7 +9,7 @@
 // CALCULAR La CAPACIDAD DEL JSON
 // Asistente Arduino Json: https://arduinojson.org/v6/assistant/#/step2
 // ------------------------------------------------------
-const size_t capacitySettings = 1536;
+const size_t capacitySettings = 2536;
 
 // ---------------------------------------------------
 // Versión de Firmware desde las variables de entorno platformio.ini
