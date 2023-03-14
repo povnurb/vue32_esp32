@@ -28,6 +28,7 @@
 #include "vue32_server.hpp"
 #include "vue32_websockets.hpp"
 #include "vue32_relays.hpp"
+#include "vue32_alarmas.hpp"
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -64,6 +65,8 @@ void setup() {
   timeSetup();
   // Inicio de configuracion del relay
   setupPinRelay();
+  // inicia los pines de las alarmas
+  setupPinAlarmas(); //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   // Inicializar el Servidor WEB
   InitServer();
   // Inicializamos el Websocket
@@ -117,6 +120,10 @@ void loop() {
   if (millis() - lastTime > 1000){
     lastTime = millis();
     WsMessage(getSendJson(getDateTime(), "time"), "", "");
+  }
+  if (millis() - lastTime2 > 1000){
+    lastTime2 = millis();
+    WsMessage(getSendJson(OnOffAlarmas(),"alarmas"),"",""); //se captura en cli useApp.js linea 140
   }
   
 }

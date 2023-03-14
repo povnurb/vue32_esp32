@@ -75,7 +75,31 @@ void OnOffRelays(String command){
     }else{
         log("[ INFO ] Commando por MQTT => " + command);
     }
-
+    //todo esto meterlo en el ultimo else+++++++++++++++++++++++++++++
+    if(JsonDoc["output"]=="ALARM_LOGICA1"){
+        log("cambia logica1");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA2"){
+        log("cambia logica2");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA3"){
+        log("cambia logica3");
+    }else if(JsonDoc["output"]=="ALARM_LOGICA4"){
+        log("cambia logica4");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA5"){
+        log("cambia logica5");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA6"){
+        log("cambia logica6");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA7"){
+        log("cambia logica7");
+        
+    }else if(JsonDoc["output"]=="ALARM_LOGICA8"){
+        log("cambia logica8");
+        
+    }else{
     if(JsonDoc["value"]){
         if (relay_pin.LOGICA == 0){
             setOnSingle(relay_pin.PIN);                    
@@ -93,6 +117,9 @@ void OnOffRelays(String command){
             RELAY_STATUS = true;          
         }
     }
-    // guardar status en memoria spiffs
     settingsSave();  
+    }
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // guardar status en memoria spiffs
+    
 }

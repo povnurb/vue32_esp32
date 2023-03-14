@@ -31,6 +31,8 @@ AsyncEventSource events("/events"); //eventos ws
 // /api/time                      POST
 // /api/action                    GET
 // /api/action                    POST
+// /api/alarmas                   GET
+// /api/alarmas                   POST
 // -------------------------------------------------------------------
 // -------------------------------------------------------------------
 // Método PUT Actualizar configuraciones WiFi
@@ -788,6 +790,114 @@ void putRequestAction(AsyncWebServerRequest * request, uint8_t *data, size_t len
     }     
 }
 
+// -------------------------------------------------------------------------
+// Método POST Alarmas  putRequestAlarmas
+// -----------------------------------------------------------------------
+void putRequestAlarmas(AsyncWebServerRequest * request, uint8_t *data, size_t len, size_t index, size_t total){
+    if(!request->authenticate(device_old_user, device_old_password)&&contra)
+        return request->requestAuthentication();    
+    
+    const char* dataType = "application/json";
+
+    String bodyContent = GetBodyContent(data, len);   
+
+    StaticJsonDocument<1720> doc;  //podriamos ver si jala reduciendo
+
+    DeserializationError error = deserializeJson(doc, bodyContent);
+    if (error) { 
+        request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
+        log("[ INFO ] Problemas con el tamaño de StaticDocument");
+        return;
+    };
+    // -------------------------------------------------------------------
+    // ALARMAS settings.json
+    // -------------------------------------------------------------------
+    String s = "";    
+
+    // Normal - Invertida true/false
+    ALARM_LOGICA1 = doc["ALARM_LOGICA1"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME1"] != ""){
+        s = doc["ALARM_NAME1"].as<String>();
+        s.trim();
+        ALARM_NAME1 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA2 = doc["ALARM_LOGICA2"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME2"] != ""){
+        s = doc["ALARM_NAME2"].as<String>();
+        s.trim();
+        ALARM_NAME2 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA3 = doc["ALARM_LOGICA3"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME3"] != ""){
+        s = doc["ALARM_NAME3"].as<String>();
+        s.trim();
+        ALARM_NAME3 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA4 = doc["ALARM_LOGICA4"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME4"] != ""){
+        s = doc["ALARM_NAME4"].as<String>();
+        s.trim();
+        ALARM_NAME4 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA5 = doc["ALARM_LOGICA5"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME5"] != ""){
+        s = doc["ALARM_NAME5"].as<String>();
+        s.trim();
+        ALARM_NAME5 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA6 = doc["ALARM_LOGICA6"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME6"] != ""){
+        s = doc["ALARM_NAME6"].as<String>();
+        s.trim();
+        ALARM_NAME6 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA7 = doc["ALARM_LOGICA7"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME7"] != ""){
+        s = doc["ALARM_NAME7"].as<String>();
+        s.trim();
+        ALARM_NAME7 = s;
+        s = "";
+    }
+    // Normal - Invertida true/false
+    ALARM_LOGICA8 = doc["ALARM_LOGICA8"].as<bool>();
+    // Nombre
+    if(doc["ALARM_NAME8"] != ""){
+        s = doc["ALARM_NAME8"].as<String>();
+        s.trim();
+        ALARM_NAME8 = s;
+        s = "";
+    }
+
+    // Save Settings.json
+    if (settingsSave()){
+        request->send(200, dataType, "{ \"save\": true }");   
+        log("[ INFO ] Action Set OK");
+        // Esperar la Transmisión de los datos seriales
+        Serial.flush(); 
+        ESP.restart();     
+    }else{
+        request->send(500, dataType, "{ \"save\": false }");
+    }     
+}
 
 
 
@@ -814,7 +924,8 @@ void InitServer(){
     // /api/time                      GET
     // /api/action                    GET
     // /api/action                    POST
-    // /api/alarm                     GET
+    // /api/alarmas                   GET
+    // /api/alarmas                   POST
     // -------------------------------------------------------------------
     
     // -------------------------------------------------------------------
@@ -1200,6 +1311,12 @@ void InitServer(){
     // Método: POST
     // -------------------------------------------------------------------
     server.on("/api/action", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestAction);
+    // -------------------------------------------------------------------
+    // Parámetros de Configuración de las acciones
+    // url: /api/alarmas
+    // Método: POST
+    // -------------------------------------------------------------------
+    server.on("/api/alarmas", HTTP_POST, [](AsyncWebServerRequest * request){}, NULL, putRequestAlarmas);
 
     // -------------------------------------------------------------------
     // Zona Servidor Web VUE

@@ -98,7 +98,6 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
 		ESP.restart();
 	}else{
 		//hacer un else if
-		log("[ INFO ] Commando por WS => " + command);
 		OnOffRelays(command);
 		
 	}

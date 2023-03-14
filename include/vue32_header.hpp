@@ -100,7 +100,7 @@ WiFiUDP ntpUDP;
 NTPClient ntpClient(ntpUDP);
 
 long lastTime = 0;          // Variable para tiempo de envio por WS
-
+long lastTime2 = 0;         // variable para tiempo de envio de Alarmas
 // ---------------------------------------------------
 // Zona de Relays
 // ---------------------------------------------------
