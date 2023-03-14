@@ -108,7 +108,7 @@ void loop() {
   // ---------------------------------------------------------------
   if (millis() - lastWsSend > 1000){
     lastWsSend = millis();
-    WsMessage(getJsonIndex(),"","");
+    WsMessage(getJsonIndex(),"",""); // seguir esta
   }
   //-----------------------------------------------------------------
   // RTC & NTP
@@ -123,7 +123,7 @@ void loop() {
   }
   if (millis() - lastTime2 > 1000){
     lastTime2 = millis();
-    WsMessage(getSendJson(OnOffAlarmas(),"alarmas"),"",""); //se captura en cli useApp.js linea 140
+    WsMessage(OnOffAlarmas(),"",""); //se captura en cli useApp.js linea 140
   }
   
 }

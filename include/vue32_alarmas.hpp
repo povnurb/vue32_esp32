@@ -235,7 +235,7 @@ void setupPinAlarmas(){
 String OnOffAlarmas(){
     String response = "";
 	DynamicJsonDocument jsonDoc(1000);
-    
+    jsonDoc["type"] = "alarmas";
     if (!alarma1.LOGICA){
         if (digitalRead(alarma1.PIN)){
             jsonDoc["ALARM_STATUS1"] = true;
