@@ -35,11 +35,10 @@ Alarma alarma8;
 // SETUP DEL PIN ALARMAS
 // -------------------------------------------------------------
 void setupPinAlarma1(){
-    alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLUP};
-    pinMode(alarma1.PIN,alarma1.MODE);
-    //digitalWrite(alarma1.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma1.LOGICA){
+
+    if (!ALARM_LOGICA1){
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLUP};
+        pinMode(alarma1.PIN,alarma1.MODE);
         if (digitalRead(alarma1.PIN)){
             ALARM_STATUS1=true;
         }else
@@ -47,6 +46,8 @@ void setupPinAlarma1(){
             ALARM_STATUS1=false;
         }
     }else{
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLDOWN};
+        pinMode(alarma1.PIN,alarma1.MODE);
         if (digitalRead(alarma1.PIN)){
             ALARM_STATUS1=false;
         }else
@@ -58,11 +59,9 @@ void setupPinAlarma1(){
 }
 
 void setupPinAlarma2(){
-    alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLUP};
-    pinMode(alarma2.PIN,alarma2.MODE);
-    //digitalWrite(alarma2.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma2.LOGICA){
+    if (!ALARM_LOGICA2){
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLUP};
+        pinMode(alarma2.PIN,alarma2.MODE);
         if (digitalRead(alarma2.PIN)){
             ALARM_STATUS2=true;
         }else
@@ -70,6 +69,8 @@ void setupPinAlarma2(){
             ALARM_STATUS2=false;
         }
     }else{
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLDOWN};
+        pinMode(alarma2.PIN,alarma2.MODE);
         if (digitalRead(alarma2.PIN)){
             ALARM_STATUS2=false;
         }else
@@ -81,11 +82,9 @@ void setupPinAlarma2(){
 }
 
 void setupPinAlarma3(){
-    alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLUP};
-    pinMode(alarma3.PIN,alarma3.MODE);
-    //digitalWrite(alarma3.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma3.LOGICA){
+    if (!ALARM_LOGICA3){
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLUP};
+        pinMode(alarma3.PIN,alarma3.MODE);
         if (digitalRead(alarma3.PIN)){
             ALARM_STATUS3=true;
         }else
@@ -93,6 +92,8 @@ void setupPinAlarma3(){
             ALARM_STATUS3=false;
         }
     }else{
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLDOWN};
+        pinMode(alarma3.PIN,alarma3.MODE);
         if (digitalRead(alarma3.PIN)){
             ALARM_STATUS3=false;
         }else
@@ -104,11 +105,9 @@ void setupPinAlarma3(){
 }
 
 void setupPinAlarma4(){
-    alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLUP};
-    pinMode(alarma4.PIN,alarma4.MODE);
-    //digitalWrite(alarma4.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma4.LOGICA){
+    if (!ALARM_LOGICA4){
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLUP};
+        pinMode(alarma4.PIN,alarma4.MODE);
         if (digitalRead(alarma4.PIN)){
             ALARM_STATUS4=true;
         }else
@@ -116,6 +115,8 @@ void setupPinAlarma4(){
             ALARM_STATUS4=false;
         }
     }else{
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLDOWN};
+        pinMode(alarma4.PIN,alarma4.MODE);
         if (digitalRead(alarma4.PIN)){
             ALARM_STATUS4=false;
         }else
@@ -127,11 +128,9 @@ void setupPinAlarma4(){
 }
 
 void setupPinAlarma5(){
-    alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLUP};
-    pinMode(alarma5.PIN,alarma5.MODE);
-    //digitalWrite(alarma5.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma5.LOGICA){
+    if (!ALARM_LOGICA5){
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLUP};
+        pinMode(alarma5.PIN,alarma5.MODE);
         if (digitalRead(alarma5.PIN)){
             ALARM_STATUS5=true;
         }else
@@ -139,6 +138,8 @@ void setupPinAlarma5(){
             ALARM_STATUS5=false;
         }
     }else{
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLDOWN};
+        pinMode(alarma5.PIN,alarma5.MODE);
         if (digitalRead(alarma5.PIN)){
             ALARM_STATUS5=false;
         }else
@@ -149,12 +150,10 @@ void setupPinAlarma5(){
     log("[ INFO ] ALARMA 5 CONFIGURADA: "+ ALARM_NAME5); 
 }
 
-void setupPinAlarma6(){
-    alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLUP};
-    pinMode(alarma6.PIN,alarma6.MODE);
-    //digitalWrite(alarma6.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma6.LOGICA){
+void setupPinAlarma6(){  
+    if (!ALARM_LOGICA6){
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLUP};
+        pinMode(alarma6.PIN,alarma6.MODE);
         if (digitalRead(alarma6.PIN)){
             ALARM_STATUS6=true;
         }else
@@ -162,6 +161,8 @@ void setupPinAlarma6(){
             ALARM_STATUS6=false;
         }
     }else{
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLDOWN};
+        pinMode(alarma6.PIN,alarma6.MODE);
         if (digitalRead(alarma6.PIN)){
             ALARM_STATUS6=false;
         }else
@@ -173,11 +174,9 @@ void setupPinAlarma6(){
 }
 
 void setupPinAlarma7(){
-    alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLUP};
-    pinMode(alarma7.PIN,alarma7.MODE);
-    //digitalWrite(alarma7.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma7.LOGICA){
+    if (!ALARM_LOGICA7){
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLUP};
+        pinMode(alarma7.PIN,alarma7.MODE);
         if (digitalRead(alarma7.PIN)){
             ALARM_STATUS7=true;
         }else
@@ -185,6 +184,8 @@ void setupPinAlarma7(){
             ALARM_STATUS7=false;
         }
     }else{
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLDOWN};
+        pinMode(alarma7.PIN,alarma7.MODE);
         if (digitalRead(alarma7.PIN)){
             ALARM_STATUS7=false;
         }else
@@ -196,11 +197,9 @@ void setupPinAlarma7(){
 }
 
 void setupPinAlarma8(){
-    alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLUP};
-    pinMode(alarma8.PIN,alarma8.MODE);
-    //digitalWrite(alarma8.PIN,HIGH);  // talvez hay que quitar
-    //logica
-    if (!alarma8.LOGICA){
+    if (!ALARM_LOGICA8){
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLUP};
+        pinMode(alarma8.PIN,alarma8.MODE);
         if (digitalRead(alarma8.PIN)){
             ALARM_STATUS8=true;
         }else
@@ -208,6 +207,8 @@ void setupPinAlarma8(){
             ALARM_STATUS8=false;
         }
     }else{
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLDOWN};
+        pinMode(alarma8.PIN,alarma8.MODE);
         if (digitalRead(alarma8.PIN)){
             ALARM_STATUS8=false;
         }else
@@ -234,7 +235,7 @@ void setupPinAlarmas(){
 
 String OnOffAlarmas(){
     String response = "";
-	DynamicJsonDocument jsonDoc(1000);
+	DynamicJsonDocument jsonDoc(2500);
     jsonDoc["type"] = "alarmas";
     if (!alarma1.LOGICA){
         if (digitalRead(alarma1.PIN)){
@@ -255,6 +256,153 @@ String OnOffAlarmas(){
            
         }
     }
+    if (!alarma2.LOGICA){
+        if (digitalRead(alarma2.PIN)){
+            jsonDoc["ALARM_STATUS2"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS2"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma2.PIN)){
+            jsonDoc["ALARM_STATUS2"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS2"] = true;
+           
+        }
+    }
+    if (!alarma3.LOGICA){
+        if (digitalRead(alarma3.PIN)){
+            jsonDoc["ALARM_STATUS3"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS3"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma3.PIN)){
+            jsonDoc["ALARM_STATUS3"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS3"] = true;
+           
+        }
+    }
+    if (!alarma4.LOGICA){
+        if (digitalRead(alarma4.PIN)){
+            jsonDoc["ALARM_STATUS4"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS4"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma4.PIN)){
+            jsonDoc["ALARM_STATUS4"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS4"] = true;
+           
+        }
+    }
+    if (!alarma5.LOGICA){
+        if (digitalRead(alarma5.PIN)){
+            jsonDoc["ALARM_STATUS5"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS5"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma5.PIN)){
+            jsonDoc["ALARM_STATUS5"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS5"] = true;
+           
+        }
+    }
+    if (!alarma6.LOGICA){
+        if (digitalRead(alarma6.PIN)){
+            jsonDoc["ALARM_STATUS6"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS6"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma6.PIN)){
+            jsonDoc["ALARM_STATUS6"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS6"] = true;
+           
+        }
+    }
+    if (!alarma7.LOGICA){
+        if (digitalRead(alarma7.PIN)){
+            jsonDoc["ALARM_STATUS7"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS7"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma7.PIN)){
+            jsonDoc["ALARM_STATUS7"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS7"] = true;
+           
+        }
+    }
+    if (!alarma8.LOGICA){
+        if (digitalRead(alarma8.PIN)){
+            jsonDoc["ALARM_STATUS8"] = true;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS8"] = false;
+           
+        }
+    }else{
+        if (digitalRead(alarma8.PIN)){
+            jsonDoc["ALARM_STATUS8"] = false;
+            
+        }else
+        {
+           jsonDoc["ALARM_STATUS8"] = true;
+           
+        }
+    }
+    
+    jsonDoc["ALARM_CONT1"]=ALARM_CONT1;jsonDoc["ALARM_CONT5"]=ALARM_CONT5;
+    jsonDoc["ALARM_CONT2"]=ALARM_CONT2;jsonDoc["ALARM_CONT6"]=ALARM_CONT6;
+    jsonDoc["ALARM_CONT3"]=ALARM_CONT3;jsonDoc["ALARM_CONT7"]=ALARM_CONT7;
+    jsonDoc["ALARM_CONT4"]=ALARM_CONT4;jsonDoc["ALARM_CONT8"]=ALARM_CONT8;
+    jsonDoc["ALARM_TIMEON1"]=ALARM_TIMEON1;jsonDoc["ALARM_TIMEON2"]=ALARM_TIMEON2;
+    jsonDoc["ALARM_TIMEON3"]=ALARM_TIMEON3;jsonDoc["ALARM_TIMEON4"]=ALARM_TIMEON4;
+    jsonDoc["ALARM_TIMEON5"]=ALARM_TIMEON5;jsonDoc["ALARM_TIMEON6"]=ALARM_TIMEON6;
+    jsonDoc["ALARM_TIMEON7"]=ALARM_TIMEON7;jsonDoc["ALARM_TIMEON8"]=ALARM_TIMEON8;
+    jsonDoc["ALARM_TIMEOFF1"]=ALARM_TIMEOFF1;jsonDoc["ALARM_TIMEOFF2"]=ALARM_TIMEOFF2;
+    jsonDoc["ALARM_TIMEOFF3"]=ALARM_TIMEOFF3;jsonDoc["ALARM_TIMEOFF4"]=ALARM_TIMEOFF4;
+    jsonDoc["ALARM_TIMEOFF5"]=ALARM_TIMEOFF5;jsonDoc["ALARM_TIMEOFF6"]=ALARM_TIMEOFF6;
+    jsonDoc["ALARM_TIMEOFF7"]=ALARM_TIMEOFF7;jsonDoc["ALARM_TIMEOFF8"]=ALARM_TIMEOFF8;
+    
     serializeJson(jsonDoc, response);
 	return response;
 }

@@ -359,3 +359,53 @@ String getDateTime(){
     //sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d", dia, mes, anio, hora, minuto);
 	return String( fecha );
 }
+
+// -------------------------------------------------------------------
+//contador de alarmas
+void contadorAlarmas(){
+    int pines[8] = {ALARM_PIN1,ALARM_PIN2,ALARM_PIN3,ALARM_PIN4,ALARM_PIN5,ALARM_PIN6,ALARM_PIN7,ALARM_PIN8};
+    bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM_LOGICA5,ALARM_LOGICA6,ALARM_LOGICA7,ALARM_LOGICA8};
+    String fechaAct[8] = {ALARM_TIMEON1,ALARM_TIMEON2,ALARM_TIMEON3,ALARM_TIMEON4,ALARM_TIMEON5,ALARM_TIMEON6,ALARM_TIMEON7,ALARM_TIMEON8};
+    String fechaClear[8] = {ALARM_TIMEOFF1,ALARM_TIMEOFF2,ALARM_TIMEOFF3,ALARM_TIMEOFF4,ALARM_TIMEOFF5,ALARM_TIMEOFF6,ALARM_TIMEOFF7,ALARM_TIMEOFF8};
+    //long now2 = millis(); 
+    //if (now2 - last2 > 20000 || last2 > now2){// cada 20 segundos si al acabarse el contador last queda en 0 y now en millones   
+    //last2 = millis(); 
+        for (int i=0; i < 8; i++){
+            if(!logicas[i]){ //si la logica es normal
+        
+                if(!digitalRead(pines[i]) && !cambiar[i]){
+                    cont[i]++;
+                    fechaAct[i] = getDateTime();
+                    fechaClear[i] = "";
+                    cambiar[i]=true;
+                }else if(digitalRead(pines[i]) && cambiar[i]){
+                    cambiar[i]=false;
+                    fechaClear[i] = getDateTime();
+                }
+            }else{  //si la logica es invertida
+            
+                if(digitalRead(pines[i]) && !cambiar[i]){
+                    cont[i]++;
+                    fechaAct[i] = getDateTime();
+                    fechaClear[i] = "";
+                    cambiar[i]=true;
+                }else if(!digitalRead(pines[i]) && cambiar[i]){
+                    cambiar[i]=false;
+                    fechaClear[i] = getDateTime();
+                }
+            }
+        }
+    //}
+    ALARM_CONT1=cont[0];ALARM_CONT2=cont[1];
+    ALARM_CONT3=cont[2];ALARM_CONT4=cont[3];
+    ALARM_CONT5=cont[4];ALARM_CONT6=cont[5];
+    ALARM_CONT7=cont[6];ALARM_CONT8=cont[7];
+    ALARM_TIMEON1=fechaAct[0];ALARM_TIMEON2=fechaAct[1];
+    ALARM_TIMEON3=fechaAct[2];ALARM_TIMEON4=fechaAct[3];
+    ALARM_TIMEON5=fechaAct[4];ALARM_TIMEON6=fechaAct[5];
+    ALARM_TIMEON7=fechaAct[6];ALARM_TIMEON8=fechaAct[7];
+    ALARM_TIMEOFF1=fechaClear[0];ALARM_TIMEOFF2=fechaClear[1];
+    ALARM_TIMEOFF3=fechaClear[2];ALARM_TIMEOFF4=fechaClear[3];
+    ALARM_TIMEOFF5=fechaClear[4];ALARM_TIMEOFF6=fechaClear[5];
+    ALARM_TIMEOFF7=fechaClear[6];ALARM_TIMEOFF8=fechaClear[7];
+}

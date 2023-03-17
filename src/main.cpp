@@ -125,5 +125,10 @@ void loop() {
     lastTime2 = millis();
     WsMessage(OnOffAlarmas(),"",""); //se captura en cli useApp.js linea 140
   }
-  
+  if (millis() - lastTime3 > 1000){
+    lastTime3 = millis();
+    contadorAlarmas(); 
+  }
+
+
 }

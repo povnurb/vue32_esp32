@@ -45,11 +45,11 @@ void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
     StaticJsonDocument<768> doc;
     DeserializationError error = deserializeJson(doc, bodyContent);
     if (error) { 
-        Serial.println("[ ERROR ] En petición POST");
+        Serial.println("[ ERROR:vue32_server.hpp ] En petición POST");
         request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
         return;
     };
-    Serial.println("[ INFO ] Ok petición POST");
+    Serial.println("[ INFO:vue32_server.hpp ] Ok petición POST");
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------  
@@ -137,10 +137,10 @@ void putRequestWiFi(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
     // Save Settings.json
     if (settingsSave()){
         request->send(200, dataType, "{ \"save\": true }");
-        log("[ INFO ] Se Guardo");        
+        log("[ INFO:vue32_server.hpp ] Se Guardo");        
     }else{
         request->send(500, dataType, "{ \"save\": false }");
-        log("[ INFO ] No se Guardo");
+        log("[ INFO:vue32_server.hpp ] No se Guardo");
     } 
 }
 // -------------------------------------------------------------------
@@ -219,7 +219,7 @@ void putRequestCloudData(AsyncWebServerRequest * request, uint8_t *data, size_t 
     StaticJsonDocument<768> doc;
     DeserializationError error = deserializeJson(doc, bodyContent);
     if (error) { 
-        log("[ INFO ] Error 400");
+        log("[ INFO:vue32_server.hpp ] Error 400");
         request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
         return;
     };
@@ -385,21 +385,21 @@ void handleDoUpload(AsyncWebServerRequest *request, String filename, size_t inde
         return request->requestAuthentication(); 
     const char* dataType = "application/json";
     if (!index) {
-        Serial.printf("[ INFO ] Upload Start: %s\n", filename.c_str());
+        Serial.printf("[ INFO:vue32_server.hpp ] Upload Start: %s\n", filename.c_str());
     }
     // Validar el Archivo si esta abierto settings.json
     if (opened == false) {
         opened = true;
         file = SPIFFS.open(String("/") + filename, FILE_WRITE);
         if (!file) {
-            log("[ ERROR ] No se pudo abrir el archivo para escribir");
+            log("[ ERROR:vue32_server.hpp ] No se pudo abrir el archivo para escribir");
             request->send(500, dataType, "{ \"save\": false, \"msg\": \"¡Error, No se pudo abrir el archivo para escribir!\"}");
             return;
         }
     }
     // Escribir el archivo en la Memoria
     if (file.write(data, len) != len) {
-        log("[ ERROR ] No se pudo escribir el Archivo");
+        log("[ ERROR:vue32_server.hpp ] No se pudo escribir el Archivo");
         request->send(500, dataType, "{ \"save\": false, \"msg\": \"¡Error, No se pudo escribir el Archivo: " + filename + " !\"}");
         return;
     }
@@ -411,7 +411,7 @@ void handleDoUpload(AsyncWebServerRequest *request, String filename, size_t inde
         request->send(response);
         file.close();
         opened = false;
-        log("[ INFO ] Carga del Archivo " + filename + " completada");
+        log("[ INFO:vue32_server.hpp ] Carga del Archivo " + filename + " completada");
         // Esperar la Transmisión de los datos seriales
         Serial.flush();
         // Reiniciar el ESP32 
@@ -430,12 +430,12 @@ void handleDoFirmware(AsyncWebServerRequest *request, const String& filename, si
     String updateSystem = cmd == U_PART ? "FileSystem" : "Firmware";
     if (!index) {
         content_len = request->contentLength();    
-        log("[ INFO ] Actualización del "+ updateSystem +" iniciada");        
+        log("[ INFO:vue32_server.hpp ] Actualización del "+ updateSystem +" iniciada");        
         if (!Update.begin(UPDATE_SIZE_UNKNOWN, cmd)) {
             AsyncWebServerResponse *response = request->beginResponse(500, dataType, "{ \"save\": false, \"msg\": \"¡Error, No se pudo actualizar el "+ updateSystem +" Index: " + filename + " !\"}");
             request->send(response);
             Update.printError(Serial);
-            log("[ ERROR ] Update del "+ updateSystem +" terminado");
+            log("[ ERROR:vue32_server.hpp ] Update del "+ updateSystem +" terminado");
         }
     }
     if (Update.write(data, len) != len) {
@@ -451,7 +451,7 @@ void handleDoFirmware(AsyncWebServerRequest *request, const String& filename, si
             response->addHeader("Cache-Control","no-cache");
             response->addHeader("Location", "root@"+ updateSystem +"");
             request->send(response);
-            log("[ INFO ] Update del " + updateSystem + " completado");
+            log("[ INFO:vue32_server.hpp ] Update del " + updateSystem + " completado");
             // Esperar la Transmisión de los datos seriales
             Serial.flush(); 
             ESP.restart();
@@ -725,7 +725,7 @@ void putRequestTime(AsyncWebServerRequest * request, uint8_t *data, size_t len, 
     // Save Settings.json
     if (settingsSave()){
         request->send(200, dataType, "{ \"save\": true }");   
-        log("[ INFO ] Time Set OK");
+        log("[ INFO:vue32_server.hpp ] Time Set OK");
         // Esperar la Transmisión de los datos seriales
         Serial.flush(); 
         ESP.restart();     
@@ -781,7 +781,7 @@ void putRequestAction(AsyncWebServerRequest * request, uint8_t *data, size_t len
     // Save Settings.json
     if (settingsSave()){
         request->send(200, dataType, "{ \"save\": true }");   
-        log("[ INFO ] Action Set OK");
+        log("[ INFO:vue32_server.hpp ] Action Set OK");
         // Esperar la Transmisión de los datos seriales
         Serial.flush(); 
         ESP.restart();     
@@ -801,12 +801,12 @@ void putRequestAlarmas(AsyncWebServerRequest * request, uint8_t *data, size_t le
 
     String bodyContent = GetBodyContent(data, len);   
 
-    StaticJsonDocument<1720> doc;  //podriamos ver si jala reduciendo
+    StaticJsonDocument<2220> doc;  //podriamos ver si jala reduciendo
 
     DeserializationError error = deserializeJson(doc, bodyContent);
     if (error) { 
         request->send(400, dataType, "{ \"status\": \"Error de JSON enviado\" }");
-        log("[ INFO ] Problemas con el tamaño de StaticDocument");
+        log("[ INFO:vue32_server.hpp ] Problemas con el tamaño de StaticDocument");
         return;
     };
     // -------------------------------------------------------------------

@@ -9,7 +9,7 @@
 // CALCULAR La CAPACIDAD DEL JSON
 // Asistente Arduino Json: https://arduinojson.org/v6/assistant/#/step2
 // ------------------------------------------------------
-const size_t capacitySettings = 2536;
+const size_t capacitySettings = 2536; //2536
 
 // ---------------------------------------------------
 // Versión de Firmware desde las variables de entorno platformio.ini
@@ -21,7 +21,7 @@ String device_fw_version = ESCAPEQUOTE(BUILD_TAG);
 // Versión de Hardware y Fabricante
 // ---------------------------------------------------
 #define device_hw_version "ADMINVUE32 v1 00000000"      // Versión de Hardware
-#define device_manufacturer "EDUARDO"                   // Fabricante
+#define device_manufacturer "povnurb@hotmail.com"                // Fabricante
 // ---------------------------------------------------
 // Zona configuracion Dispositivo
 // ---------------------------------------------------
@@ -101,6 +101,8 @@ NTPClient ntpClient(ntpUDP);
 
 long lastTime = 0;          // Variable para tiempo de envio por WS
 long lastTime2 = 0;         // variable para tiempo de envio de Alarmas
+long lastTime3 = 0;         // contador de alarmas
+long last2=0;               // Tiempo de activacion de la alarmas ya que podria ser falsa
 // ---------------------------------------------------
 // Zona de Relays
 // ---------------------------------------------------
@@ -127,3 +129,6 @@ String  ALARM_TIMEOFF1, ALARM_TIMEOFF2, ALARM_TIMEOFF3, ALARM_TIMEOFF4;
 String  ALARM_TIMEOFF5, ALARM_TIMEOFF6, ALARM_TIMEOFF7, ALARM_TIMEOFF8;
 int     ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4;
 int     ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8;
+int cont[8] = {ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4,ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8};
+
+bool cambiar[8] = {false,false,false,false,false,false,false,false};

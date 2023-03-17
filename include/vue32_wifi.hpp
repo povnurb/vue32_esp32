@@ -1,6 +1,4 @@
 
-
-
 const byte DNSSERVER_PORT = 53;
 DNSServer dnsServer;
 
@@ -25,12 +23,12 @@ const char *esp_hostname = device_id;
 // Iniciar WIFI Modo AP
 // -------------------------------------------------------------------
 void startAP(){
-    log("[ INFO ] Iniciando Modo AP");
+    log("[ INFO:vue32_wifi.hpp ] Iniciando Modo AP");
     WiFi.disconnect(true);
     WiFi.softAPConfig(ap_IPv4, ap_IPv4, ap_subnet);
     WiFi.hostname(esp_hostname);
     WiFi.softAP(ap_ssid, ap_password, ap_chanel, ap_visibility, ap_connect);
-    log("[ INFO ] WiFi AP " + String(ap_ssid) + " - IP " + ipStr(WiFi.softAPIP()));
+    log("[ INFO:vue32_wifi.hpp ] WiFi AP " + String(ap_ssid) + " - IP " + ipStr(WiFi.softAPIP()));
     dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
     dnsServer.start(DNSSERVER_PORT, "*", ap_IPv4);
     wifi_mode = WIFI_AP;
@@ -39,29 +37,29 @@ void startAP(){
 // Iniciar WIFI Modo Estación
 // -------------------------------------------------------------------
 void startClient(){
-    log("[ INFO ] Iniciando Modo Estación");
+    log("[ INFO:vue32_wifi.hpp ] Iniciando Modo Estación");
     WiFi.mode(WIFI_STA);
     if(wifi_ip_static){
         //CharToIP(wifi_ipv4) convierte de char a ip
         if(!WiFi.config(CharToIP(wifi_ipv4), CharToIP(wifi_gateway), CharToIP(wifi_subnet), CharToIP(wifi_dns_primary), CharToIP(wifi_dns_secondary))){
-            log("[ ERROR ] Falló la configuración en Modo Estación");
+            log("[ ERROR:vue32_wifi.hpp ] Falló la configuración en Modo Estación");
         }
     }
     WiFi.hostname(esp_hostname);
     WiFi.begin(wifi_ssid, wifi_password);
-    log("[ INFO ] Conectando al SSID " + String(wifi_ssid));
+    log("[ INFO:vue32_wifi.hpp ] Conectando al SSID " + String(wifi_ssid));
     byte b = 0;
     while( WiFi.status() != WL_CONNECTED && b < 60){
         b++;
-        log("[ WARNING ] Intentando conexión WiFi ...");
+        log("[ WARNING:vue32_wifi.hpp ] Intentando conexión WiFi ...");
         vTaskDelay(500);
         blinkSingle(100, WIFILED);        
     }
     if(WiFi.status() == WL_CONNECTED){
-        log("[ INFO ] WiFi conectado (" + String(WiFi.RSSI()) + ") dBm IPv4 " + ipStr(WiFi.localIP()));
-        log("[ INFO ] WiFi Mask "+ipStr(WiFi.subnetMask()));
-        log("[ INFO ] WiFi Gateway "+ipStr(WiFi.gatewayIP()));
-        log("[ INFO ] WiFi DNS "+ipStr(WiFi.dnsIP()));
+        log("[ INFO:vue32_wifi.hpp ] WiFi conectado (" + String(WiFi.RSSI()) + ") dBm IPv4 " + ipStr(WiFi.localIP()));
+        log("[ INFO:vue32_wifi.hpp ] WiFi Mask "+ipStr(WiFi.subnetMask()));
+        log("[ INFO:vue32_wifi.hpp ] WiFi Gateway "+ipStr(WiFi.gatewayIP()));
+        log("[ INFO:vue32_wifi.hpp ] WiFi DNS "+ipStr(WiFi.dnsIP()));
         blinkRandomSingle(10, 100, WIFILED);
         wifi_mode = WIFI_STA;
         wifi_change = true;
@@ -80,12 +78,12 @@ void wifi_setup(){
     // 1) Si esta activo el Modo AP
     if(ap_mode){
         startAP();
-        log("[ INFO ] WiFi en Modo AP");
+        log("[ INFO:vue32_wifi.hpp ] WiFi en Modo AP");
     }else{
     // 2) Caso contrario en Modo Estación
         startClient();
         if(WiFi.status() == WL_CONNECTED){
-            log("[ INFO ] WiFI Modo Estación");
+            log("[ INFO:vue32_wifi.hpp ] WiFI Modo Estación");
         }
     }
     // Iniciar hostname broadcast en modo STA o AP
@@ -109,12 +107,12 @@ void wifiLoop(){
         previousMillisWIFI = currentMillis;
         // 2 = 1 minuto
         if(w == 2){
-            log("[ INFO ] Cambiando a Modo AP");
+            log("[ INFO:vue32_wifi.hpp ] Cambiando a Modo AP");
             wifi_change = true;
             w = 0;
             startAP(); 
         }else{
-            log("[ WARNING ] SSID " + String(wifi_ssid) + " desconectado ");
+            log("[ WARNING:vue32_wifi.hpp ] SSID " + String(wifi_ssid) + " desconectado ");
         }
     }else{
        blinkSingleAsy(10, 500, WIFILED); 
@@ -133,7 +131,7 @@ void wifiAPLoop(){
         previousMillisAP = currentMillis;
         // 20 es igual a 10 minuto
         if(a == 20){
-            log("[ INFO ] Cambiando a Modo Estación");
+            log("[ INFO:vue32_wifi.hpp ] Cambiando a Modo Estación");
             wifi_change = false;
             a = 0;
             startClient();

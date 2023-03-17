@@ -12,9 +12,9 @@ boolean settingRead(){
         settingsReset();
         // si da un error osea es verdadero hay que iniciar con valores de fabrica
         DeserializationError error = deserializeJson(jsonSettings, file);
-        log("[ ERROR ] Falló la lectura de las configuraciones, tomando valores por defecto");
+        log("[ ERROR:vue32_settings.hpp ] Falló la lectura de las configuraciones, tomando valores por defecto");
         if (error){
-            log("[ ERROR ] " + String(error.c_str())); //se convierte de un char a un string
+            log("[ ERROR:vue32_settings.hpp ] " + String(error.c_str())); //se convierte de un char a un string
         }
         return false;
     }else{
@@ -106,7 +106,7 @@ boolean settingRead(){
         ALARM_PIN8 = jsonSettings["ALARM_PIN8"].as<int>();
 
         file.close();
-        log("[ INFO ] Lectura de las configuraciones correcta");
+        log("[ INFO:vue32_settings.hpp ] Lectura de las configuraciones correcta");
         return true;
     }
 }
@@ -156,7 +156,7 @@ void settingsReset(){
     mqtt_time_send = true;
     mqtt_time_interval = 30000; //3o segundos
     mqtt_status_send = true;
-    log("[ INFO ] Se reiniciaron todos los valores por defecto");   
+    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto");   
 
     // -------------------------------------------------------------------
     // Time settings.json
@@ -200,7 +200,7 @@ void settingsReset(){
     ALARM_LOGICA8 = false;
     ALARM_PIN8 = 27;
     ALARM_NAME8 = "ALARMA 8";
-    log("[ INFO ] Se reiniciaron todos los valores por defecto"); 
+    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto"); 
 }
 
 // -------------------------------------------------------------------
@@ -302,11 +302,11 @@ boolean settingsSave(){
 
         serializeJsonPretty(jsonSettings, file);
         file.close();
-        log("[ INFO ] Configuración Guardada correctamente");
+        log("[ INFO:vue32_settings.hpp ] Configuración Guardada correctamente");
         serializeJsonPretty(jsonSettings, Serial);
         return true;
     }else{
-        log("[ ERROR ] Falló el guardado de la configuración");
+        log("[ ERROR:vue32_settings.hpp ] Falló el guardado de la configuración");
         return false;
     }
 }

@@ -71,7 +71,7 @@ void onWsEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventT
 void InitWebSockets(){
 	ws.onEvent(onWsEvent);
 	server.addHandler(&ws);
-    log("[ INFO ] Servidor WebSocket iniciado");
+    log("[ INFO:vue32_websockets.hpp ] Servidor WebSocket iniciado");
 }
 // -------------------------------------------------------------------
 // Manejador de ordenes enviada por Websocket
@@ -81,19 +81,19 @@ void ProcessRequest(AsyncWebSocketClient * client, String request){
     command.trim();
     
 	if (strcmp(command.c_str(), "restore") == 0){ //strcmp() si lo que llega es igual a "restore" da un 0
-		log("[ INFO ] Commando por WS => " + command);
+		log("[ INFO:vue32_websockets.hpp ] Commando por WS => " + command);
 		settingsReset();
 		if(settingsSave()){
 			WsMessage("¡Equipo restablecido correctamente!","undo-alt","info");
-			log("[ INFO ] ¡Equipo restablecido correctamente!");
+			log("[ INFO:vue32_websockets.hpp ] ¡Equipo restablecido correctamente!");
 			Serial.flush(); //espera a que se envie el log
 			ESP.restart(); //reinicia el esp
 		}
 	}else if(strcmp(command.c_str(), "restart") == 0){
 		WsMessage("¡Equipo reiniciado correctamente!","redo-alt","info");
-		log("[ INFO ] Commando por WS => " + command);	
+		log("[ INFO:vue32_websockets.hpp ] Commando por WS => " + command);	
 		Serial.flush(); 
-		log("[ INFO ] ¡Equipo reiniciado correctamente!");
+		log("[ INFO:vue32_websockets.hpp ] ¡Equipo reiniciado correctamente!");
 		Serial.flush(); 
 		ESP.restart();
 	}else{

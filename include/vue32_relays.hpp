@@ -57,7 +57,7 @@ void setupPinRelay(){
         }
     }
 
-    log("[ INFO ] Salida a Relay inicializada");
+    log("[ INFO:relays.hpp ] Salida a Relay inicializada");
 
 }
 
@@ -71,9 +71,9 @@ void OnOffRelays(String command){
     deserializeJson(JsonDoc, command);
 
     if(JsonDoc["protocol"] == "WS"){
-        log("[ INFO ] Commando por WS => " + command);
+        log("[ INFO:relays.hpp ] Commando por WS => " + command);
     }else{
-        log("[ INFO ] Commando por MQTT => " + command);
+        log("[ INFO:relays.hpp ] Commando por MQTT => " + command);
     }
     //todo esto meterlo en el ultimo else+++++++++++++++++++++++++++++
     if(JsonDoc["output"]=="ALARM_LOGICA1"){
