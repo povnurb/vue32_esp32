@@ -1,5 +1,13 @@
 #include "vue32_LedBlink.hpp"
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    uint8_t temprature_sens_read();
+#ifdef __cplusplus
+}
+#endif
+uint8_t temprature_sens_read();
 void WsMessage(String msg, String icon, String Type);
 String getSendJson(String msg, String type);
 void setDyMsYr();
@@ -408,4 +416,7 @@ void contadorAlarmas(){
     ALARM_TIMEOFF3=fechaClear[2];ALARM_TIMEOFF4=fechaClear[3];
     ALARM_TIMEOFF5=fechaClear[4];ALARM_TIMEOFF6=fechaClear[5];
     ALARM_TIMEOFF7=fechaClear[6];ALARM_TIMEOFF8=fechaClear[7];
+}
+float TempCPUValue (){
+    return TempCPU = (temprature_sens_read() - 32) / 1.8;
 }

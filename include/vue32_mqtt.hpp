@@ -117,24 +117,57 @@ void mqtt_publish(){
     WsMessage(getSendJson("Inactivo","mqtt"), "","");
 }
 // -------------------------------------------------------------------
-// JSON con información del Dispositivo para envio por MQTT
+// JSON con información del Dispositivo para envio por MQTT v1/devices/L4L0S4N/ESPWROOM325AF6B8701CF1/#
 // ------------------------------------------------------------------- 
 String Json(){
     String response;
     DynamicJsonDocument jsonDoc(3000);
-    jsonDoc["device_serial"] = deviceID();
-    jsonDoc["device_manufacturer"] = String(device_manufacturer);
-    jsonDoc["device_fw_version"] = device_fw_version;
-    jsonDoc["device_hw_version"] = String(device_hw_version);
-    jsonDoc["device_sdk"] = String(ESP.getSdkVersion());
-    jsonDoc["device_time_active"] = String(longTimeStr(millis() / 1000));
-    jsonDoc["device_ram_available"] = String(ESP.getFreeHeap()); 
-    jsonDoc["device_ram_size"] =  String(ESP.getHeapSize());
-    jsonDoc["device_spiffs_total"] = String(SPIFFS.totalBytes());      
-    jsonDoc["device_spiffs_used"] = String(SPIFFS.usedBytes());
-    jsonDoc["device_cpu_clock"] = String(getCpuFrequencyMhz());
-    jsonDoc["device_flash_size"] = String(ESP.getFlashChipSize() / (1024.0 * 1024), 2);
-    jsonDoc["device_restart"] = String(device_restart);
+    jsonDoc["device_serial"] = deviceID();//ok
+    jsonDoc["ALARM_NAME1"] = ALARM_NAME1;
+    jsonDoc["ALARM_STATUS1"] = ALARM_STATUS1;
+    jsonDoc["ALARM_TIMEON1"] = ALARM_TIMEON1;
+    jsonDoc["ALARM_TIMEOFF1"] = ALARM_TIMEOFF1;
+    jsonDoc["ALARM_NAME2"] = ALARM_NAME2;
+    jsonDoc["ALARM_STATUS2"] = ALARM_STATUS2;
+    jsonDoc["ALARM_TIMEON2"] = ALARM_TIMEON2;
+    jsonDoc["ALARM_TIMEOFF2"] = ALARM_TIMEOFF2;
+    jsonDoc["ALARM_NAME3"] = ALARM_NAME3;
+    jsonDoc["ALARM_STATUS3"] = ALARM_STATUS3;
+    jsonDoc["ALARM_TIMEON3"] = ALARM_TIMEON3;
+    jsonDoc["ALARM_TIMEOFF3"] = ALARM_TIMEOFF3;
+    jsonDoc["ALARM_NAME4"] = ALARM_NAME4;
+    jsonDoc["ALARM_STATUS4"] = ALARM_STATUS4;
+    jsonDoc["ALARM_TIMEON4"] = ALARM_TIMEON4;
+    jsonDoc["ALARM_TIMEOFF4"] = ALARM_TIMEOFF4;
+    jsonDoc["ALARM_NAME5"] = ALARM_NAME5;
+    jsonDoc["ALARM_STATUS5"] = ALARM_STATUS5;
+    jsonDoc["ALARM_TIMEON5"] = ALARM_TIMEON5;
+    jsonDoc["ALARM_TIMEOFF5"] = ALARM_TIMEOFF5;
+    jsonDoc["ALARM_NAME6"] = ALARM_NAME6;
+    jsonDoc["ALARM_STATUS6"] = ALARM_STATUS6;
+    jsonDoc["ALARM_TIMEON6"] = ALARM_TIMEON6;
+    jsonDoc["ALARM_TIMEOFF6"] = ALARM_TIMEOFF6;
+    jsonDoc["ALARM_NAME7"] = ALARM_NAME7;
+    jsonDoc["ALARM_STATUS7"] = ALARM_STATUS7;
+    jsonDoc["ALARM_TIMEON7"] = ALARM_TIMEON7;
+    jsonDoc["ALARM_TIMEOFF7"] = ALARM_TIMEOFF7;
+    jsonDoc["ALARM_NAME8"] = ALARM_NAME8;
+    jsonDoc["ALARM_STATUS8"] = ALARM_STATUS8;
+    jsonDoc["ALARM_TIMEON8"] = ALARM_TIMEON8;
+    jsonDoc["ALARM_TIMEOFF8"] = ALARM_TIMEOFF8;
+    jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
+    //jsonDoc["device_manufacturer"] = String(device_manufacturer);
+    //jsonDoc["device_fw_version"] = device_fw_version;
+    //jsonDoc["device_hw_version"] = String(device_hw_version);
+    //jsonDoc["device_sdk"] = String(ESP.getSdkVersion());
+    //jsonDoc["device_time_active"] = String(longTimeStr(millis() / 1000));
+    //jsonDoc["device_ram_available"] = String(ESP.getFreeHeap()); 
+    //jsonDoc["device_ram_size"] =  String(ESP.getHeapSize());
+    //jsonDoc["device_spiffs_total"] = String(SPIFFS.totalBytes());      
+    //jsonDoc["device_spiffs_used"] = String(SPIFFS.usedBytes());
+    //jsonDoc["device_cpu_clock"] = String(getCpuFrequencyMhz());
+    //jsonDoc["device_flash_size"] = String(ESP.getFlashChipSize() / (1024.0 * 1024), 2);
+    //jsonDoc["device_restart"] = String(device_restart);
     serializeJson(jsonDoc, response);
     return response;
 } 

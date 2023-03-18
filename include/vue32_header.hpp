@@ -132,3 +132,7 @@ int     ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8;
 int cont[8] = {ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4,ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8};
 
 bool cambiar[8] = {false,false,false,false,false,false,false,false};
+//-----------------------------------------------------------------
+// Zona Otras
+//-----------------------------------------------------------------
+float TempCPU;                      // Temperatura del CPU en °C

@@ -402,7 +402,7 @@ String OnOffAlarmas(){
     jsonDoc["ALARM_TIMEOFF3"]=ALARM_TIMEOFF3;jsonDoc["ALARM_TIMEOFF4"]=ALARM_TIMEOFF4;
     jsonDoc["ALARM_TIMEOFF5"]=ALARM_TIMEOFF5;jsonDoc["ALARM_TIMEOFF6"]=ALARM_TIMEOFF6;
     jsonDoc["ALARM_TIMEOFF7"]=ALARM_TIMEOFF7;jsonDoc["ALARM_TIMEOFF8"]=ALARM_TIMEOFF8;
-    
+    jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
     serializeJson(jsonDoc, response);
 	return response;
 }
