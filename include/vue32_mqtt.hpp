@@ -121,7 +121,7 @@ void mqtt_publish(){
 // ------------------------------------------------------------------- 
 String Json(){
     String response;
-    DynamicJsonDocument jsonDoc(3000);
+    DynamicJsonDocument jsonDoc(3000); //se puede reducir a 2500
     jsonDoc["device_serial"] = deviceID();//ok
     jsonDoc["ALARM_NAME1"] = ALARM_NAME1;
     jsonDoc["ALARM_STATUS1"] = ALARM_STATUS1;
@@ -156,6 +156,8 @@ String Json(){
     jsonDoc["ALARM_TIMEON8"] = ALARM_TIMEON8;
     jsonDoc["ALARM_TIMEOFF8"] = ALARM_TIMEOFF8;
     jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
+    jsonDoc["tempC"] = String(round(Temperatura()),1);
+    jsonDoc["humedad"] = String(round(Humedad()),1);
     //jsonDoc["device_manufacturer"] = String(device_manufacturer);
     //jsonDoc["device_fw_version"] = device_fw_version;
     //jsonDoc["device_hw_version"] = String(device_hw_version);

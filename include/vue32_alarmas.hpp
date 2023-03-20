@@ -403,6 +403,37 @@ String OnOffAlarmas(){
     jsonDoc["ALARM_TIMEOFF5"]=ALARM_TIMEOFF5;jsonDoc["ALARM_TIMEOFF6"]=ALARM_TIMEOFF6;
     jsonDoc["ALARM_TIMEOFF7"]=ALARM_TIMEOFF7;jsonDoc["ALARM_TIMEOFF8"]=ALARM_TIMEOFF8;
     jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
+    jsonDoc["tempC"] = String(round(Temperatura()),1);
+    jsonDoc["humedad"] = String(round(Humedad()),1);
     serializeJson(jsonDoc, response);
 	return response;
+}
+// ----------------------------------------------------------------------------------
+// Activar Alarmas
+// ----------------------------------------------------------------------------------
+void activarAlarma(){ //para provar despues en casa
+
+int pines[8] = {ALARM_PIN1,ALARM_PIN2,ALARM_PIN3,ALARM_PIN4,ALARM_PIN5,ALARM_PIN6,ALARM_PIN7,ALARM_PIN8};
+bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM_LOGICA5,ALARM_LOGICA6,ALARM_LOGICA7,ALARM_LOGICA8};
+    if(digitalRead(15)&&normalizar){
+        //digitalWrite(32,HIGH);
+        normalizar=false;
+        for (int i=0; i < 8; i++){
+            if(!logicas[i]){
+                pinMode(pines[i],INPUT_PULLDOWN);
+                digitalWrite(pines[1],LOW);
+                
+            }else{
+                pinMode(pines[i],INPUT_PULLUP);
+                digitalWrite(pines[1],HIGH);
+                
+            }
+            
+        }
+    }else if(!digitalRead(15)&&!normalizar){
+        normalizar=true;
+        setupPinAlarmas();
+        //digitalWrite(32,LOW);
+    }
+    
 }

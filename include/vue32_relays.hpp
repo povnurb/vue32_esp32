@@ -3,6 +3,7 @@
 // -------------------------------------------------------------------
 // Estructura de un Relay
 /* 
+comando por MQTT {"protocol": "WS", "output": "RELAY D33", "value": true } para encender 
 @PIN            ->  Se define el pin del ESP32 Ejemplo: GPIO2 - 2
 @LOGICA         ->  Se define la logica del PIN / 0 - Normal, 1 - Invertida 
     Normal      - On(1) -> cerrar, Off(0) -> abrir

@@ -29,6 +29,7 @@
 #include "vue32_websockets.hpp"
 #include "vue32_relays.hpp"
 #include "vue32_alarmas.hpp"
+#include "vue32_reset.hpp"
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -44,6 +45,7 @@ void setup() {
   EEPROM.commit();
   EEPROM.end();
   log("\n[ INFO ] Iniciando Setup");
+  dht.begin(); //su funcionalidad se encuentra en vue32_functions.hpp
   log("[ INFO ] Reinicios " + String(device_restart));
   log("[ INFO ] Setup corriendo en el Core "+ String(xPortGetCoreID())); //indica el core donde esta corriendo 
   // iniciar el SPIFFS
@@ -71,7 +73,8 @@ void setup() {
   InitServer();
   // Inicializamos el Websocket
   InitWebSockets();
-  
+  // Init pin restore
+  setupPintRestore();
   //fin del setup
   log("[ INFO ] Setup completado");
 }
@@ -128,7 +131,14 @@ void loop() {
   if (millis() - lastTime3 > 1000){
     lastTime3 = millis();
     contadorAlarmas(); 
+    activarAlarma();//para activar las alarmas
   }
 
-
+  // -------------------------------------------------------------
+  // Monitoreo del Pin 35
+  // -------------------------------------------------------------
+  resetIntLoop();
+  // -------------------------------------------------------------
+  // Monitoreo del Pin 34 para hacer la activacion de las alarmas
+  // -------------------------------------------------------------
 }

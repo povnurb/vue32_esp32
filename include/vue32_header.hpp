@@ -5,6 +5,7 @@
 // ---------------------------------------------------
 #define WIFILED 12                                      //GPIO12 LED WIFI
 #define MQTTLED 13                                      //GPIO13 LED MQTT
+#define DHTPIN 2                                        // pin DHT                        
 // ------------------------------------------------------
 // CALCULAR La CAPACIDAD DEL JSON
 // Asistente Arduino Json: https://arduinojson.org/v6/assistant/#/step2
@@ -135,4 +136,5 @@ bool cambiar[8] = {false,false,false,false,false,false,false,false};
 //-----------------------------------------------------------------
 // Zona Otras
 //-----------------------------------------------------------------
-float TempCPU;                      // Temperatura del CPU en °C
+float TempCPU, humedad, tempC;                      // Temperatura del CPU en °C
+bool normalizar=true;                               // Normalizar alarmas

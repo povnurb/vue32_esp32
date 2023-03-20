@@ -11,6 +11,7 @@ uint8_t temprature_sens_read();
 void WsMessage(String msg, String icon, String Type);
 String getSendJson(String msg, String type);
 void setDyMsYr();
+
 // -----------------------------------------------------
 // Genera un log en el puerto Serial
 // -----------------------------------------------------
@@ -384,6 +385,7 @@ void contadorAlarmas(){
                 if(!digitalRead(pines[i]) && !cambiar[i]){
                     cont[i]++;
                     fechaAct[i] = getDateTime();
+                   
                     fechaClear[i] = "";
                     cambiar[i]=true;
                 }else if(digitalRead(pines[i]) && cambiar[i]){
@@ -416,7 +418,22 @@ void contadorAlarmas(){
     ALARM_TIMEOFF3=fechaClear[2];ALARM_TIMEOFF4=fechaClear[3];
     ALARM_TIMEOFF5=fechaClear[4];ALARM_TIMEOFF6=fechaClear[5];
     ALARM_TIMEOFF7=fechaClear[6];ALARM_TIMEOFF8=fechaClear[7];
+    
+}
+// --------------------------------------------------------------
+// Temperaturas y humedad
+//  objeto DHT
+DHT dht(DHTPIN, DHT22);
+float Temperatura(){
+    return tempC = dht.readTemperature();
+}
+float Humedad(){
+    return humedad = dht.readHumidity();
 }
 float TempCPUValue (){
     return TempCPU = (temprature_sens_read() - 32) / 1.8;
 }
+//---------------------------------------------------------------
+// Funcion Buzzer indicador de alarma
+//---------------------------------------------------------------
+
