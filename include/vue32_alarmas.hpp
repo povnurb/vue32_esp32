@@ -435,5 +435,4 @@ bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM
         setupPinAlarmas();
         //digitalWrite(32,LOW);
     }
-    
 }

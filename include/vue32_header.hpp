@@ -138,3 +138,10 @@ bool cambiar[8] = {false,false,false,false,false,false,false,false};
 //-----------------------------------------------------------------
 float TempCPU, humedad, tempC;                      // Temperatura del CPU en °C
 bool normalizar=true;                               // Normalizar alarmas
+//------------------------------------------------------------------------
+// OLED
+// -----------------------------------------------------------------------
+#define SCREEN_WIDTH 128    // Ancho   128 o 128
+#define SCREEN_HEIGHT 32    // Alto     32 0 64
+
+Adafruit_SSD1306 OLED(SCREEN_WIDTH, SCREEN_HEIGHT);

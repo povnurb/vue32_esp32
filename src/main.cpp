@@ -17,6 +17,9 @@
 /*Librerias agregadas para nuevas funcionalidades (LALO)*/
 #include <Adafruit_Sensor.h>    //by Adafruit
 #include <DHT.h>                //by Adafruit
+#include <Adafruit_I2CDevice.h> //by Adafruit
+#include <Adafruit_SSD1306.h>   //by Adafruit
+
 // -------------------------------------------------------------------
 // Archivos *.hpp - Fragmentar el Código
 // ----------------------------------------
@@ -30,6 +33,9 @@
 #include "vue32_relays.hpp"
 #include "vue32_alarmas.hpp"
 #include "vue32_reset.hpp"
+
+
+
 // -------------------------------------------------------------------
 // Setup
 // -------------------------------
@@ -45,6 +51,11 @@ void setup() {
   EEPROM.commit();
   EEPROM.end();
   log("\n[ INFO ] Iniciando Setup");
+  if(!OLED.begin(SSD1306_SWITCHCAPVCC, 0x3C)){ // Dirección 0x3C
+    Serial.println("OLED no encontrado");
+    while(true);
+  }
+  OLED.clearDisplay();
   dht.begin(); //su funcionalidad se encuentra en vue32_functions.hpp
   log("[ INFO ] Reinicios " + String(device_restart));
   log("[ INFO ] Setup corriendo en el Core "+ String(xPortGetCoreID())); //indica el core donde esta corriendo 
@@ -132,6 +143,7 @@ void loop() {
     lastTime3 = millis();
     contadorAlarmas(); 
     activarAlarma();//para activar las alarmas
+    mostrar();
   }
 
   // -------------------------------------------------------------

@@ -434,6 +434,40 @@ float TempCPUValue (){
     return TempCPU = (temprature_sens_read() - 32) / 1.8;
 }
 //---------------------------------------------------------------
-// Funcion Buzzer indicador de alarma
+// OLED
 //---------------------------------------------------------------
-
+void mostrar(){
+    if(wifi_mode == WIFI_AP){
+        OLED.clearDisplay();
+        OLED.setTextSize(1);
+        OLED.setTextColor(WHITE);
+        OLED.setCursor(0,0);
+        OLED.println(String(ap_ssid));
+        OLED.println(ipStr(WiFi.softAPIP()));
+        OLED.print(Temperatura());
+        OLED.print(" C ");
+        OLED.print(Humedad());
+        OLED.println("%");
+        OLED.display();
+    }else if(wifi_mode == WIFI_STA){
+        OLED.clearDisplay();
+        OLED.setTextSize(1);
+        OLED.setTextColor(WHITE);
+        OLED.setCursor(0,0);
+        OLED.println(wifi_ssid);
+        OLED.println(ipStr(WiFi.localIP()));
+        OLED.print(Temperatura());
+        OLED.print(" C ");
+        OLED.print(Humedad());
+        OLED.println("%");
+        OLED.print(getDateTime());
+        OLED.display();
+    }else{
+        OLED.clearDisplay();
+        OLED.setTextSize(1.2);
+        OLED.setTextColor(WHITE);
+        OLED.setCursor(0,0);
+        OLED.print(" Buscando red ");
+        OLED.display();
+    }
+}
