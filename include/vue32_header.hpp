@@ -145,3 +145,11 @@ bool normalizar=true;                               // Normalizar alarmas
 #define SCREEN_HEIGHT 32    // Alto     32 0 64
 
 Adafruit_SSD1306 OLED(SCREEN_WIDTH, SCREEN_HEIGHT);
+// -----------------------------------------------------------------------
+// Activacion de Alarmas de manera local atravez de la interupcion (boton 34)
+// -----------------------------------------------------------------------
+#define BOTON2 34               // Botón de interrupción de alarma
+volatile boolean togle = true;
+#define tiempoDeRebote 250                                //sirve para omitir rebotes
+volatile unsigned long tiempoDeInterrupcion= 0; //sirve para omitir rebotes en sonido
+void IRAM_ATTR activarAlarmas();

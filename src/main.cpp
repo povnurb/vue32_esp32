@@ -86,6 +86,8 @@ void setup() {
   InitWebSockets();
   // Init pin restore
   setupPintRestore();
+  // Actvacion de Alarmas por interrupcion pin 34
+  setupPinActivarAlarmas();
   //fin del setup
   log("[ INFO ] Setup completado");
 }

@@ -436,3 +436,24 @@ bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM
         //digitalWrite(32,LOW);
     }
 }
+//------------------------------------------------------------------------------------------------------------
+// Setup pin Alarmas por interrupcion boton en sitio
+// ----------------------------------------------------------------------------------------------------------
+void setupPinActivarAlarmas(){
+    pinMode(BOTON2, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(BOTON2), activarAlarmas, FALLING);  // Flanco de bajada
+}
+void IRAM_ATTR activarAlarmas(){
+    if(millis() - tiempoDeInterrupcion > tiempoDeRebote){
+    Serial.println("Interrupción34");
+    if(togle){
+        Serial.println("Activando Alarmas");
+        digitalWrite(15, HIGH); //cuando se activa el pin15 se activan las alarmas
+    }else{
+        Serial.println("Desactivando Alarmas");
+        digitalWrite(15, LOW);
+        }
+    tiempoDeInterrupcion = millis();
+    togle ^= true;
+} 
+}
