@@ -41,6 +41,7 @@ void startClient(){
     WiFi.mode(WIFI_STA);
     if(wifi_ip_static){
         //CharToIP(wifi_ipv4) convierte de char a ip
+        //if(!WiFi.config(CharToIP(wifi_ipv4), CharToIP(wifi_gateway), CharToIP(wifi_subnet), CharToIP(wifi_dns_primary), CharToIP(wifi_dns_secondary))){
         if(!WiFi.config(CharToIP(wifi_ipv4), CharToIP(wifi_gateway), CharToIP(wifi_subnet), CharToIP(wifi_dns_primary), CharToIP(wifi_dns_secondary))){
             log("[ ERROR:vue32_wifi.hpp ] Falló la configuración en Modo Estación");
         }

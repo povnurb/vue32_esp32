@@ -79,7 +79,7 @@ void setup() {
   // Inicio de configuracion del relay
   setupPinRelay();
   // inicia los pines de las alarmas
-  setupPinAlarmas(); //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  setupPinAlarmas(); 
   // Inicializar el Servidor WEB
   InitServer();
   // Inicializamos el Websocket
@@ -89,6 +89,8 @@ void setup() {
   // Actvacion de Alarmas por interrupcion pin 34
   setupPinActivarAlarmas();
   //fin del setup
+  pinMode(15,OUTPUT);
+  digitalWrite(15,LOW);
   log("[ INFO ] Setup completado");
 }
 

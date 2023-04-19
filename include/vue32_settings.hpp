@@ -121,18 +121,18 @@ void settingsReset(){
     strlcpy(device_config_serial, deviceID().c_str() ,sizeof(device_config_serial));
     strlcpy(device_id, "adminvue32", sizeof(device_id));
     strlcpy(device_old_user, "admin", sizeof(device_old_user)); 
-    strlcpy(device_old_password, "admin", sizeof(device_old_password)); 
+    strlcpy(device_old_password, "personal", sizeof(device_old_password)); 
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
     wifi_ip_static = false; // false
-    strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
-    strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
-    strlcpy(wifi_ipv4, "192.168.1.164", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
+    strlcpy(wifi_ssid, "INFINITUMF69D", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
+    strlcpy(wifi_password, "89r3X2Z7nJ", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
+    strlcpy(wifi_ipv4, "10.4.30.15", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
     strlcpy(wifi_subnet, "255.255.255.0", sizeof(wifi_subnet));
-    strlcpy(wifi_gateway, "192.168.1.254", sizeof(wifi_gateway));//192.168.1.254
-    strlcpy(wifi_dns_primary, "192.168.1.254", sizeof(wifi_dns_primary)); //8.8.8.8
-    strlcpy(wifi_dns_secondary, "8.8.4.4", sizeof(wifi_dns_secondary)); 
+    strlcpy(wifi_gateway, "10.4.30.254", sizeof(wifi_gateway));//192.168.1.254
+    strlcpy(wifi_dns_primary, "10.192.10.1", sizeof(wifi_dns_primary)); //8.8.8.8
+    strlcpy(wifi_dns_secondary, "10.106.10.2", sizeof(wifi_dns_secondary)); //8.8.4.4
     // -------------------------------------------------------------------
     // WIFI AP settings.json
     // -------------------------------------------------------------------
@@ -145,7 +145,7 @@ void settingsReset(){
     // -------------------------------------------------------------------
     // Cloud settings.json
     // -------------------------------------------------------------------
-    mqtt_cloud_enable = true;
+    mqtt_cloud_enable = false;
     strlcpy(mqtt_user, "L4L0S4N", sizeof(mqtt_user));
     strlcpy(mqtt_password, "ED0613620", sizeof(mqtt_password));
     strlcpy(mqtt_server, "broker.hivemq.com", sizeof(mqtt_server));

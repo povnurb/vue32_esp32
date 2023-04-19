@@ -11,7 +11,8 @@ uint8_t temprature_sens_read();
 void WsMessage(String msg, String icon, String Type);
 String getSendJson(String msg, String type);
 void setDyMsYr();
-
+float min2 = 100;
+float max2;
 // -----------------------------------------------------
 // Genera un log en el puerto Serial
 // -----------------------------------------------------
@@ -364,8 +365,8 @@ String getDateTime(){
             segundo = rtc.getSecond();
         }                   
     }	
-    sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d:%.2d", dia, mes, anio, hora, minuto, segundo);
-    //sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d", dia, mes, anio, hora, minuto);
+    //sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d:%.2d", dia, mes, anio, hora, minuto, segundo);
+    sprintf( fecha, "%.2d-%.2d-%.4d %.2d:%.2d", dia, mes, anio, hora, minuto);
 	return String( fecha );
 }
 
@@ -433,6 +434,26 @@ float Humedad(){
 float TempCPUValue (){
     return TempCPU = (temprature_sens_read() - 32) / 1.8;
 }
+float tempMin(){
+  
+  float min = Temperatura();
+  if(min < min2){
+    min2 = min;
+  }else if(min == 0){
+    min2 = Temperatura();
+  }
+  Serial.println(min2);
+  return min2;
+}  
+float tempMax(){
+  
+  float max = Temperatura();
+  if(max > max2){
+    max2 = max;
+  }
+  Serial.println(max2);
+  return max2;
+}
 //---------------------------------------------------------------
 // OLED
 //---------------------------------------------------------------
@@ -461,13 +482,6 @@ void mostrar(){
         OLED.print(Humedad());
         OLED.println("%");
         OLED.print(getDateTime());
-        OLED.display();
-    }else{
-        OLED.clearDisplay();
-        OLED.setTextSize(1.2);
-        OLED.setTextColor(WHITE);
-        OLED.setCursor(0,0);
-        OLED.print(" Buscando red ");
         OLED.display();
     }
 }

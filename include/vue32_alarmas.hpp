@@ -235,7 +235,7 @@ void setupPinAlarmas(){
 
 String OnOffAlarmas(){
     String response = "";
-	DynamicJsonDocument jsonDoc(2500);
+	DynamicJsonDocument jsonDoc(2500); //2500
     jsonDoc["type"] = "alarmas";
     if (!alarma1.LOGICA){
         if (digitalRead(alarma1.PIN)){
@@ -402,9 +402,11 @@ String OnOffAlarmas(){
     jsonDoc["ALARM_TIMEOFF3"]=ALARM_TIMEOFF3;jsonDoc["ALARM_TIMEOFF4"]=ALARM_TIMEOFF4;
     jsonDoc["ALARM_TIMEOFF5"]=ALARM_TIMEOFF5;jsonDoc["ALARM_TIMEOFF6"]=ALARM_TIMEOFF6;
     jsonDoc["ALARM_TIMEOFF7"]=ALARM_TIMEOFF7;jsonDoc["ALARM_TIMEOFF8"]=ALARM_TIMEOFF8;
-    jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
-    jsonDoc["tempC"] = String(round(Temperatura()),1);
-    jsonDoc["humedad"] = String(round(Humedad()),1);
+    jsonDoc["t_cpu"] = String(round(TempCPUValue()),0);
+    jsonDoc["tC"] = String(round(Temperatura()),0);
+    jsonDoc["hum"] = String(round(Humedad()),0); //tempMin() //tempMax()
+    jsonDoc["tmin"] = String(round(tempMin()),0);
+    jsonDoc["tmax"] = String(round(tempMax()),0);
     serializeJson(jsonDoc, response);
 	return response;
 }
@@ -420,12 +422,12 @@ bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM
         normalizar=false;
         for (int i=0; i < 8; i++){
             if(!logicas[i]){
-                pinMode(pines[i],INPUT_PULLDOWN);
-                digitalWrite(pines[1],LOW);
+                pinMode(pines[i],OUTPUT); //activa las alarmas de manera remota
+                digitalWrite(pines[i],LOW);
                 
             }else{
                 pinMode(pines[i],INPUT_PULLUP);
-                digitalWrite(pines[1],HIGH);
+                digitalWrite(pines[i],HIGH);//tenia 1
                 
             }
             
