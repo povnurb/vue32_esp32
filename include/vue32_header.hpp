@@ -153,3 +153,210 @@ volatile boolean togle = true;
 #define tiempoDeRebote 250                                //sirve para omitir rebotes
 volatile unsigned long tiempoDeInterrupcion= 0; //sirve para omitir rebotes en sonido
 void IRAM_ATTR activarAlarmas();
+
+// -------------------------------------------------------------------
+struct Alarma{
+    uint8_t PIN; //5,14,16,17,18,25,26,27
+    String NAME;
+    bool LOGICA;
+    int MODE;
+};
+// -------------------------------------------------------------------
+// DEFINICION DEL PIN (alarma1)
+// PIN: GPIO15 | LOGICA: 0 | MODE: INPUT
+// -------------------------------------------------------------------
+Alarma alarma1;
+Alarma alarma2;
+Alarma alarma3;
+Alarma alarma4;
+Alarma alarma5;
+Alarma alarma6;
+Alarma alarma7;
+Alarma alarma8;
+// -------------------------------------------------------------
+// SETUP DEL PIN ALARMAS
+// -------------------------------------------------------------
+void setupPinAlarma1(){
+
+    if (!ALARM_LOGICA1){
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLUP};
+        pinMode(alarma1.PIN,alarma1.MODE);
+        if (digitalRead(alarma1.PIN)){
+            ALARM_STATUS1=true;
+        }else
+        {
+            ALARM_STATUS1=false;
+        }
+    }else{
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLDOWN};
+        pinMode(alarma1.PIN,alarma1.MODE);
+        if (digitalRead(alarma1.PIN)){
+            ALARM_STATUS1=false;
+        }else
+        {
+            ALARM_STATUS1=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 1 CONFIGURADA: "+ ALARM_NAME1); 
+}
+
+void setupPinAlarma2(){
+    if (!ALARM_LOGICA2){
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLUP};
+        pinMode(alarma2.PIN,alarma2.MODE);
+        if (digitalRead(alarma2.PIN)){
+            ALARM_STATUS2=true;
+        }else
+        {
+            ALARM_STATUS2=false;
+        }
+    }else{
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLDOWN};
+        pinMode(alarma2.PIN,alarma2.MODE);
+        if (digitalRead(alarma2.PIN)){
+            ALARM_STATUS2=false;
+        }else
+        {
+            ALARM_STATUS2=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 2 CONFIGURADA: "+ ALARM_NAME2); 
+}
+
+void setupPinAlarma3(){
+    if (!ALARM_LOGICA3){
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLUP};
+        pinMode(alarma3.PIN,alarma3.MODE);
+        if (digitalRead(alarma3.PIN)){
+            ALARM_STATUS3=true;
+        }else
+        {
+            ALARM_STATUS3=false;
+        }
+    }else{
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLDOWN};
+        pinMode(alarma3.PIN,alarma3.MODE);
+        if (digitalRead(alarma3.PIN)){
+            ALARM_STATUS3=false;
+        }else
+        {
+            ALARM_STATUS3=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 3 CONFIGURADA: "+ ALARM_NAME3); 
+}
+
+void setupPinAlarma4(){
+    if (!ALARM_LOGICA4){
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLUP};
+        pinMode(alarma4.PIN,alarma4.MODE);
+        if (digitalRead(alarma4.PIN)){
+            ALARM_STATUS4=true;
+        }else
+        {
+            ALARM_STATUS4=false;
+        }
+    }else{
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLDOWN};
+        pinMode(alarma4.PIN,alarma4.MODE);
+        if (digitalRead(alarma4.PIN)){
+            ALARM_STATUS4=false;
+        }else
+        {
+            ALARM_STATUS4=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 4 CONFIGURADA: "+ ALARM_NAME4); 
+}
+
+void setupPinAlarma5(){
+    if (!ALARM_LOGICA5){
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLUP};
+        pinMode(alarma5.PIN,alarma5.MODE);
+        if (digitalRead(alarma5.PIN)){
+            ALARM_STATUS5=true;
+        }else
+        {
+            ALARM_STATUS5=false;
+        }
+    }else{
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLDOWN};
+        pinMode(alarma5.PIN,alarma5.MODE);
+        if (digitalRead(alarma5.PIN)){
+            ALARM_STATUS5=false;
+        }else
+        {
+            ALARM_STATUS5=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 5 CONFIGURADA: "+ ALARM_NAME5); 
+}
+
+void setupPinAlarma6(){  
+    if (!ALARM_LOGICA6){
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLUP};
+        pinMode(alarma6.PIN,alarma6.MODE);
+        if (digitalRead(alarma6.PIN)){
+            ALARM_STATUS6=true;
+        }else
+        {
+            ALARM_STATUS6=false;
+        }
+    }else{
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLDOWN};
+        pinMode(alarma6.PIN,alarma6.MODE);
+        if (digitalRead(alarma6.PIN)){
+            ALARM_STATUS6=false;
+        }else
+        {
+            ALARM_STATUS6=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 6 CONFIGURADA: "+ ALARM_NAME6); 
+}
+
+void setupPinAlarma7(){
+    if (!ALARM_LOGICA7){
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLUP};
+        pinMode(alarma7.PIN,alarma7.MODE);
+        if (digitalRead(alarma7.PIN)){
+            ALARM_STATUS7=true;
+        }else
+        {
+            ALARM_STATUS7=false;
+        }
+    }else{
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLDOWN};
+        pinMode(alarma7.PIN,alarma7.MODE);
+        if (digitalRead(alarma7.PIN)){
+            ALARM_STATUS7=false;
+        }else
+        {
+            ALARM_STATUS7=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 7 CONFIGURADA: "+ ALARM_NAME7); 
+}
+
+void setupPinAlarma8(){
+    if (!ALARM_LOGICA8){
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLUP};
+        pinMode(alarma8.PIN,alarma8.MODE);
+        if (digitalRead(alarma8.PIN)){
+            ALARM_STATUS8=true;
+        }else
+        {
+            ALARM_STATUS8=false;
+        }
+    }else{
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLDOWN};
+        pinMode(alarma8.PIN,alarma8.MODE);
+        if (digitalRead(alarma8.PIN)){
+            ALARM_STATUS8=false;
+        }else
+        {
+            ALARM_STATUS8=true;
+        }
+    }
+    //log("[ INFO ] ALARMA 8 CONFIGURADA: "+ ALARM_NAME8); 
+}

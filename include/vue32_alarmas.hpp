@@ -11,7 +11,7 @@
 @CONTADOR       ->  Define las veces que se ha presentado
 @TIMEON         -> La fecha que se presentó
 @TIMEOFF        -> La fecha que se Clareo
-*/
+
 // -------------------------------------------------------------------
 struct Alarma{
     uint8_t PIN; //5,14,16,17,18,25,26,27
@@ -218,7 +218,7 @@ void setupPinAlarma8(){
     }
     log("[ INFO ] ALARMA 8 CONFIGURADA: "+ ALARM_NAME8); 
 }
-
+*/
 void setupPinAlarmas(){
     setupPinAlarma1();
     setupPinAlarma2();

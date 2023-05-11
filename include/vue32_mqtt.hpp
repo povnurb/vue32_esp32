@@ -14,6 +14,15 @@ void callback(char *topic, byte *payload, unsigned int length);
 String Json();
 void OnOffRelays(String command);
 
+bool MqttPinAlarma1();
+bool MqttPinAlarma2();
+bool MqttPinAlarma3();
+bool MqttPinAlarma4();
+bool MqttPinAlarma5();
+bool MqttPinAlarma6();
+bool MqttPinAlarma7();
+bool MqttPinAlarma8();
+
 char    willTopic[150];
 bool    willQoS      = 0; //calidad del servicio
 bool    willRetain   = false; //retencion de mensajes
@@ -124,40 +133,42 @@ String Json(){
     DynamicJsonDocument jsonDoc(3000); //se puede reducir a 2500
     jsonDoc["device_serial"] = deviceID();//ok
     jsonDoc["ALARM_NAME1"] = ALARM_NAME1;
-    jsonDoc["ALARM_STATUS1"] = ALARM_STATUS1;
+    jsonDoc["ALARM_STATUS1"] = MqttPinAlarma1();
     jsonDoc["ALARM_TIMEON1"] = ALARM_TIMEON1;
     jsonDoc["ALARM_TIMEOFF1"] = ALARM_TIMEOFF1;
     jsonDoc["ALARM_NAME2"] = ALARM_NAME2;
-    jsonDoc["ALARM_STATUS2"] = ALARM_STATUS2;
+    jsonDoc["ALARM_STATUS2"] = MqttPinAlarma2();
     jsonDoc["ALARM_TIMEON2"] = ALARM_TIMEON2;
     jsonDoc["ALARM_TIMEOFF2"] = ALARM_TIMEOFF2;
     jsonDoc["ALARM_NAME3"] = ALARM_NAME3;
-    jsonDoc["ALARM_STATUS3"] = ALARM_STATUS3;
+    jsonDoc["ALARM_STATUS3"] = MqttPinAlarma3();
     jsonDoc["ALARM_TIMEON3"] = ALARM_TIMEON3;
     jsonDoc["ALARM_TIMEOFF3"] = ALARM_TIMEOFF3;
     jsonDoc["ALARM_NAME4"] = ALARM_NAME4;
-    jsonDoc["ALARM_STATUS4"] = ALARM_STATUS4;
+    jsonDoc["ALARM_STATUS4"] = MqttPinAlarma4();
     jsonDoc["ALARM_TIMEON4"] = ALARM_TIMEON4;
     jsonDoc["ALARM_TIMEOFF4"] = ALARM_TIMEOFF4;
     jsonDoc["ALARM_NAME5"] = ALARM_NAME5;
-    jsonDoc["ALARM_STATUS5"] = ALARM_STATUS5;
+    jsonDoc["ALARM_STATUS5"] = MqttPinAlarma5();
     jsonDoc["ALARM_TIMEON5"] = ALARM_TIMEON5;
     jsonDoc["ALARM_TIMEOFF5"] = ALARM_TIMEOFF5;
     jsonDoc["ALARM_NAME6"] = ALARM_NAME6;
-    jsonDoc["ALARM_STATUS6"] = ALARM_STATUS6;
+    jsonDoc["ALARM_STATUS6"] = MqttPinAlarma6();
     jsonDoc["ALARM_TIMEON6"] = ALARM_TIMEON6;
     jsonDoc["ALARM_TIMEOFF6"] = ALARM_TIMEOFF6;
     jsonDoc["ALARM_NAME7"] = ALARM_NAME7;
-    jsonDoc["ALARM_STATUS7"] = ALARM_STATUS7;
+    jsonDoc["ALARM_STATUS7"] = MqttPinAlarma7();
     jsonDoc["ALARM_TIMEON7"] = ALARM_TIMEON7;
     jsonDoc["ALARM_TIMEOFF7"] = ALARM_TIMEOFF7;
     jsonDoc["ALARM_NAME8"] = ALARM_NAME8;
-    jsonDoc["ALARM_STATUS8"] = ALARM_STATUS8;
+    jsonDoc["ALARM_STATUS8"] = MqttPinAlarma8();
     jsonDoc["ALARM_TIMEON8"] = ALARM_TIMEON8;
     jsonDoc["ALARM_TIMEOFF8"] = ALARM_TIMEOFF8;
     jsonDoc["temp_cpu"] = String(round(TempCPUValue()),1);
     jsonDoc["tempC"] = String(round(Temperatura()),1);
     jsonDoc["humedad"] = String(round(Humedad()),1);
+    jsonDoc["tmin"] = String(round(tempMin()),1);
+    jsonDoc["tmax"] = String(round(tempMax()),1);
     //jsonDoc["device_manufacturer"] = String(device_manufacturer);
     //jsonDoc["device_fw_version"] = device_fw_version;
     //jsonDoc["device_hw_version"] = String(device_hw_version);
@@ -201,4 +212,190 @@ void mqttLoop(){
             setOffSingle(MQTTLED);
         }
     }
+}
+// alarmas estados mqtt
+bool MqttPinAlarma1(){
+
+    if (!ALARM_LOGICA1){
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLUP};
+        pinMode(alarma1.PIN,alarma1.MODE);
+        if (digitalRead(alarma1.PIN)){
+            ALARM_STATUS1=true;
+        }else
+        {
+            ALARM_STATUS1=false;
+        }
+    }else{
+        alarma1 = {ALARM_PIN1,ALARM_NAME1,ALARM_LOGICA1,INPUT_PULLDOWN};
+        pinMode(alarma1.PIN,alarma1.MODE);
+        if (digitalRead(alarma1.PIN)){
+            ALARM_STATUS1=false;
+        }else
+        {
+            ALARM_STATUS1=true;
+        }
+    }
+    return ALARM_STATUS1; 
+}
+
+bool MqttPinAlarma2(){
+
+    if (!ALARM_LOGICA2){
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLUP};
+        pinMode(alarma2.PIN,alarma2.MODE);
+        if (digitalRead(alarma2.PIN)){
+            ALARM_STATUS2=true;
+        }else
+        {
+            ALARM_STATUS2=false;
+        }
+    }else{
+        alarma2 = {ALARM_PIN2,ALARM_NAME2,ALARM_LOGICA2,INPUT_PULLDOWN};
+        pinMode(alarma2.PIN,alarma2.MODE);
+        if (digitalRead(alarma2.PIN)){
+            ALARM_STATUS2=false;
+        }else
+        {
+            ALARM_STATUS2=true;
+        }
+    }
+    return ALARM_STATUS2; 
+}
+bool MqttPinAlarma3(){
+
+    if (!ALARM_LOGICA3){
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLUP};
+        pinMode(alarma3.PIN,alarma3.MODE);
+        if (digitalRead(alarma3.PIN)){
+            ALARM_STATUS3=true;
+        }else
+        {
+            ALARM_STATUS3=false;
+        }
+    }else{
+        alarma3 = {ALARM_PIN3,ALARM_NAME3,ALARM_LOGICA3,INPUT_PULLDOWN};
+        pinMode(alarma3.PIN,alarma3.MODE);
+        if (digitalRead(alarma3.PIN)){
+            ALARM_STATUS3=false;
+        }else
+        {
+            ALARM_STATUS3=true;
+        }
+    }
+    return ALARM_STATUS3; 
+}
+bool MqttPinAlarma4(){
+
+    if (!ALARM_LOGICA4){
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLUP};
+        pinMode(alarma4.PIN,alarma4.MODE);
+        if (digitalRead(alarma4.PIN)){
+            ALARM_STATUS4=true;
+        }else
+        {
+            ALARM_STATUS4=false;
+        }
+    }else{
+        alarma4 = {ALARM_PIN4,ALARM_NAME4,ALARM_LOGICA4,INPUT_PULLDOWN};
+        pinMode(alarma4.PIN,alarma4.MODE);
+        if (digitalRead(alarma4.PIN)){
+            ALARM_STATUS4=false;
+        }else
+        {
+            ALARM_STATUS4=true;
+        }
+    }
+    return ALARM_STATUS4; 
+}
+bool MqttPinAlarma5(){
+
+    if (!ALARM_LOGICA5){
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLUP};
+        pinMode(alarma5.PIN,alarma5.MODE);
+        if (digitalRead(alarma5.PIN)){
+            ALARM_STATUS5=true;
+        }else
+        {
+            ALARM_STATUS5=false;
+        }
+    }else{
+        alarma5 = {ALARM_PIN5,ALARM_NAME5,ALARM_LOGICA5,INPUT_PULLDOWN};
+        pinMode(alarma5.PIN,alarma5.MODE);
+        if (digitalRead(alarma5.PIN)){
+            ALARM_STATUS5=false;
+        }else
+        {
+            ALARM_STATUS5=true;
+        }
+    }
+    return ALARM_STATUS5; 
+}
+bool MqttPinAlarma6(){
+
+    if (!ALARM_LOGICA6){
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLUP};
+        pinMode(alarma6.PIN,alarma6.MODE);
+        if (digitalRead(alarma6.PIN)){
+            ALARM_STATUS6=true;
+        }else
+        {
+            ALARM_STATUS6=false;
+        }
+    }else{
+        alarma6 = {ALARM_PIN6,ALARM_NAME6,ALARM_LOGICA6,INPUT_PULLDOWN};
+        pinMode(alarma6.PIN,alarma6.MODE);
+        if (digitalRead(alarma6.PIN)){
+            ALARM_STATUS6=false;
+        }else
+        {
+            ALARM_STATUS6=true;
+        }
+    }
+    return ALARM_STATUS6; 
+}
+bool MqttPinAlarma7(){
+
+    if (!ALARM_LOGICA7){
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLUP};
+        pinMode(alarma7.PIN,alarma7.MODE);
+        if (digitalRead(alarma7.PIN)){
+            ALARM_STATUS7=true;
+        }else
+        {
+            ALARM_STATUS7=false;
+        }
+    }else{
+        alarma7 = {ALARM_PIN7,ALARM_NAME7,ALARM_LOGICA7,INPUT_PULLDOWN};
+        pinMode(alarma7.PIN,alarma7.MODE);
+        if (digitalRead(alarma7.PIN)){
+            ALARM_STATUS7=false;
+        }else
+        {
+            ALARM_STATUS7=true;
+        }
+    }
+    return ALARM_STATUS7; 
+}
+bool MqttPinAlarma8(){
+
+    if (!ALARM_LOGICA8){
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLUP};
+        pinMode(alarma8.PIN,alarma8.MODE);
+        if (digitalRead(alarma8.PIN)){
+            ALARM_STATUS8=true;
+        }else
+        {
+            ALARM_STATUS8=false;
+        }
+    }else{
+        alarma8 = {ALARM_PIN8,ALARM_NAME8,ALARM_LOGICA8,INPUT_PULLDOWN};
+        pinMode(alarma8.PIN,alarma8.MODE);
+        if (digitalRead(alarma8.PIN)){
+            ALARM_STATUS8=false;
+        }else
+        {
+            ALARM_STATUS8=true;
+        }
+    }
+    return ALARM_STATUS8; 
 }

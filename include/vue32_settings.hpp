@@ -126,8 +126,8 @@ void settingsReset(){
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
     wifi_ip_static = false; // false
-    strlcpy(wifi_ssid, "INFINITUMF69D", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
-    strlcpy(wifi_password, "89r3X2Z7nJ", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
+    strlcpy(wifi_ssid, "INFINITUMD378", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
+    strlcpy(wifi_password, "Pm2Kj1Jg6j", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
     strlcpy(wifi_ipv4, "10.4.30.15", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
     strlcpy(wifi_subnet, "255.255.255.0", sizeof(wifi_subnet));
     strlcpy(wifi_gateway, "10.4.30.254", sizeof(wifi_gateway));//192.168.1.254
@@ -146,9 +146,9 @@ void settingsReset(){
     // Cloud settings.json
     // -------------------------------------------------------------------
     mqtt_cloud_enable = false;
-    strlcpy(mqtt_user, "L4L0S4N", sizeof(mqtt_user));
-    strlcpy(mqtt_password, "ED0613620", sizeof(mqtt_password));
-    strlcpy(mqtt_server, "broker.hivemq.com", sizeof(mqtt_server));
+    strlcpy(mqtt_user, "L4L0S4N", sizeof(mqtt_user)); //lalo79
+    strlcpy(mqtt_password, "ED0613620", sizeof(mqtt_password)); //public
+    strlcpy(mqtt_server, "broker.hivemq.com", sizeof(mqtt_server)); //iotmx.com
     strlcpy(mqtt_cloud_id, deviceID().c_str(), sizeof(mqtt_cloud_id));
     mqtt_port = 1883;
     mqtt_retain = false;
