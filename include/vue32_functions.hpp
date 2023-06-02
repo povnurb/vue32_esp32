@@ -1,4 +1,7 @@
 #include "vue32_LedBlink.hpp"
+// -------------------------------------------------------
+// Sensor de temp interno
+//--------------------------------------------------------
 #ifdef __cplusplus
 extern "C"
 {
@@ -8,6 +11,7 @@ extern "C"
 }
 #endif
 uint8_t temprature_sens_read();
+
 void WsMessage(String msg, String icon, String Type);
 String getSendJson(String msg, String type);
 void setDyMsYr();
@@ -442,7 +446,7 @@ float tempMin(){
   }else if(min == 0){
     min2 = Temperatura();
   }
-  Serial.println(min2);
+  //Serial.println(min2);
   return min2;
 }  
 float tempMax(){
@@ -451,7 +455,7 @@ float tempMax(){
   if(max > max2){
     max2 = max;
   }
-  Serial.println(max2);
+  //Serial.println(max2);
   return max2;
 }
 //---------------------------------------------------------------

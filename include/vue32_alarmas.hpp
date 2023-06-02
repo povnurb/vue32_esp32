@@ -230,7 +230,7 @@ void setupPinAlarmas(){
     setupPinAlarma8();
 }
 // -------------------------------------------------------------
-// control de las ALARMAS desde MQTT o WS
+// Envio de las ALARMAS por MQTT o WS
 // -------------------------------------------------------------
 
 String OnOffAlarmas(){
@@ -417,25 +417,30 @@ void activarAlarma(){ //para provar despues en casa
 
 int pines[8] = {ALARM_PIN1,ALARM_PIN2,ALARM_PIN3,ALARM_PIN4,ALARM_PIN5,ALARM_PIN6,ALARM_PIN7,ALARM_PIN8};
 bool logicas[8] = {ALARM_LOGICA1,ALARM_LOGICA2,ALARM_LOGICA3,ALARM_LOGICA4,ALARM_LOGICA5,ALARM_LOGICA6,ALARM_LOGICA7,ALARM_LOGICA8};
-    if(digitalRead(15)&&normalizar){
+    if(digitalRead(15)){
+        prueba = true;//prueba de alarmas envio por mqtt
         //digitalWrite(32,HIGH);
         normalizar=false;
         for (int i=0; i < 8; i++){
             if(!logicas[i]){
                 pinMode(pines[i],OUTPUT); //activa las alarmas de manera remota
                 digitalWrite(pines[i],LOW);
+                cont[i]=0;
                 
             }else{
                 pinMode(pines[i],INPUT_PULLUP);
                 digitalWrite(pines[i],HIGH);//tenia 1
-                
+                cont[i]=0;
             }
             
         }
     }else if(!digitalRead(15)&&!normalizar){
         normalizar=true;
         setupPinAlarmas();
-        //digitalWrite(32,LOW);
+        prueba = false;//se quita la prueba de alarmas por mqtt
+        for (int i=0; i < 8; i++){
+            cont[i]=0;
+        }
     }
 }
 //------------------------------------------------------------------------------------------------------------
@@ -457,5 +462,5 @@ void IRAM_ATTR activarAlarmas(){
         }
     tiempoDeInterrupcion = millis();
     togle ^= true;
-} 
+    } 
 }

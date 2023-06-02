@@ -32,7 +32,7 @@ char    device_id[30];              //ID del dispositivo
 int     device_restart;             //Almacena Número de reinicios
 char    device_old_user[15];        //Usuario para acceso al servidor Web
 char    device_old_password[15];    //Contraseña del usuario servidor Web
-uint8_t ip[4];                      //convierte de string a IP Variable función convertir string a IP
+uint8_t ip[4];                      //variable para convertir de string a IP Variable función convertir string a IP
 // ---------------------------------------------------
 // Zona configuración WIFI modo Cliente
 // ---------------------------------------------------
@@ -128,16 +128,17 @@ String  ALARM_TIMEON1, ALARM_TIMEON2, ALARM_TIMEON3, ALARM_TIMEON4;
 String  ALARM_TIMEON5, ALARM_TIMEON6, ALARM_TIMEON7, ALARM_TIMEON8;
 String  ALARM_TIMEOFF1, ALARM_TIMEOFF2, ALARM_TIMEOFF3, ALARM_TIMEOFF4;
 String  ALARM_TIMEOFF5, ALARM_TIMEOFF6, ALARM_TIMEOFF7, ALARM_TIMEOFF8;
-int     ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4;
+int     ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4;//registra el valor del contador
 int     ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8;
-int cont[8] = {ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4,ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8};
-
-bool cambiar[8] = {false,false,false,false,false,false,false,false};
+int cont[8] = {ALARM_CONT1, ALARM_CONT2, ALARM_CONT3, ALARM_CONT4,ALARM_CONT5, ALARM_CONT6, ALARM_CONT7, ALARM_CONT8};//lleva la contavilizacion en un for
+bool prueba = false; //envia por mqtt que se hace una prueba de alarmas
+bool cambiar[8] = {false,false,false,false,false,false,false,false};//ayuda al contador a idicar si va a cambiar de numero 
 //-----------------------------------------------------------------
 // Zona Otras
 //-----------------------------------------------------------------
 float TempCPU, humedad, tempC;                      // Temperatura del CPU en °C
-bool normalizar=true;                               // Normalizar alarmas
+//bool normalizar=true; 
+bool normalizar;                               // Normalizar alarmas
 //------------------------------------------------------------------------
 // OLED
 // -----------------------------------------------------------------------
