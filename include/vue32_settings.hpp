@@ -23,6 +23,7 @@ boolean settingRead(){
         // Dispositivo settings.json
         // ---------------------------------------------
         device_config_file = jsonSettings["device_config_file"];
+        strlcpy(ctral, jsonSettings["ctral"], sizeof(ctral)); 
         strlcpy(device_config_serial, jsonSettings["device_config_serial"],sizeof(device_config_serial));
         strlcpy(device_id, jsonSettings["device_id"], sizeof(device_id)); 
         strlcpy(device_old_user, jsonSettings["device_old_user"], sizeof(device_old_user)); 
@@ -118,6 +119,7 @@ void settingsReset(){
     // Dispositivo settings.json
     // -------------------------------------------------------------------
     device_config_file = true;
+    strlcpy(ctral, "HGO-PTTI1", sizeof(ctral));
     strlcpy(device_config_serial, deviceID().c_str() ,sizeof(device_config_serial));
     strlcpy(device_id, "adminvue32", sizeof(device_id));
     strlcpy(device_old_user, "admin", sizeof(device_old_user)); 
@@ -177,29 +179,29 @@ void settingsReset(){
     // Zona de recuperacion de Alarmas
     // ------------------------------------------------------------
     ALARM_LOGICA1 = false;
-    ALARM_NAME1 = "ALARMA 1";
+    ALARM_NAME1 = "ALARMA D5";
     ALARM_PIN1 = 5;
     ALARM_LOGICA2 = false;
     ALARM_PIN2 = 14;
-    ALARM_NAME2 = "ALARMA 2";
+    ALARM_NAME2 = "ALARMA D14";
     ALARM_LOGICA3 = false;
     ALARM_PIN3 = 16;
-    ALARM_NAME3 = "ALARMA 3";
+    ALARM_NAME3 = "ALARMA D16";
     ALARM_LOGICA4 = false;
     ALARM_PIN4 = 17;
-    ALARM_NAME4 = "ALARMA 4";
+    ALARM_NAME4 = "ALARMA D17";
     ALARM_LOGICA5 = false;
     ALARM_PIN5 = 18;
-    ALARM_NAME5 = "ALARMA 5";
+    ALARM_NAME5 = "ALARMA D18";
     ALARM_LOGICA6 = false;
     ALARM_PIN6 = 25;
-    ALARM_NAME6 = "ALARMA 6";
+    ALARM_NAME6 = "ALARMA D25";
     ALARM_LOGICA7 = false;
     ALARM_PIN7 = 26;
-    ALARM_NAME7 = "ALARMA 7";
+    ALARM_NAME7 = "ALARMA D26";
     ALARM_LOGICA8 = false;
     ALARM_PIN8 = 27;
-    ALARM_NAME8 = "ALARMA 8";
+    ALARM_NAME8 = "ALARMA D27";
     log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto"); 
 }
 
@@ -216,6 +218,7 @@ boolean settingsSave(){
         // -------------------------------------------------------------------
         // Dispositivo settings.json
         // -------------------------------------------------------------------
+        jsonSettings["ctral"] = ctral;
         jsonSettings["device_config_file"] = device_config_file; //clave:valor
         jsonSettings["device_config_serial"] = device_config_serial;
         jsonSettings["device_id"] = device_id;

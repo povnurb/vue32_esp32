@@ -407,6 +407,7 @@ String OnOffAlarmas(){
     jsonDoc["hum"] = String(round(Humedad()),0); //tempMin() //tempMax()
     jsonDoc["tmin"] = String(round(tempMin()),0);
     jsonDoc["tmax"] = String(round(tempMax()),0);
+    jsonDoc["ctral"] = ctral;
     serializeJson(jsonDoc, response);
 	return response;
 }
