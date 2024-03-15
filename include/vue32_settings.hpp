@@ -140,7 +140,7 @@ void settingsReset(){
     // -------------------------------------------------------------------
     ap_mode = false; //false
     strlcpy(ap_ssid, deviceID().c_str(), sizeof(ap_ssid));
-    strlcpy(ap_password, "adminadmin", sizeof(ap_password));
+    strlcpy(ap_password, "personal", sizeof(ap_password));
     ap_visibility = false;        
     ap_chanel = 9;         
     ap_connect = 4;
