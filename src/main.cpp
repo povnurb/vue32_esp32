@@ -36,7 +36,7 @@
 #include "vue32_alarmas.hpp"
 #include "vue32_reset.hpp"
 /* nueva funcionalidad para conexion a aplicacion de arduino*/
-//#include "vue32_thingProperties.hpp"
+// #include "vue32_thingProperties.hpp"
 
 // -------------------------------------------------------------------
 // Setup
@@ -100,9 +100,9 @@ void setup()
   pinMode(15, OUTPUT);
   digitalWrite(15, LOW);
   // ultima funcionalidad con arduino
-  //initProperties();
+  // initProperties();
   // Connect to Arduino IoT Cloud
-  //ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  // ArduinoCloud.begin(ArduinoIoTPreferredConnection);
 
   /*
      The following function allows you to obtain more information
@@ -111,16 +111,16 @@ void setup()
      The default is 0 (only errors).
      Maximum is 4
  */
-  //setDebugMessageLevel(2);
-  //ArduinoCloud.printDebugInfo();
+  // setDebugMessageLevel(2);
+  // ArduinoCloud.printDebugInfo();
 
   log("[ INFO ] Setup completado");
 }
 
 void loop()
 {
-  //ArduinoCloud.update();
-  // put your main code here, to run repeatedly:
+  // ArduinoCloud.update();
+  //  put your main code here, to run repeatedly:
   if (wifi_mode == WIFI_STA)
   {
     wifiLoop();
@@ -188,7 +188,7 @@ void loop()
   }
 
   // -------------------------------------------------------------
-  // Monitoreo del Pin 35
+  // Monitoreo del Pin 35 boton de reset dispositivo
   // -------------------------------------------------------------
   resetIntLoop();
   // -------------------------------------------------------------
