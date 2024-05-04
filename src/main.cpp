@@ -4,6 +4,7 @@
 // se agrega ctral en header.hpp y en settings.hpp en el read en el reset y el save
 // se agrega en el mqtt para enviar el valor
 #include <Arduino.h>
+#include <esp32-hal.h> //probando para evitar que se reinicie el dispositivo ya viene incluido en el esp32
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 #include <EEPROM.h>
@@ -119,6 +120,8 @@ void setup()
 
 void loop()
 {
+  // probando el evitar que se bloquee el perro guardian
+  ESP_RST_TASK_WDT; // reiniciar el perro guardian  por si alguna tarea dura mas tiempo del esperado al no reiniciarlo el reiniciara el dispositivo
   // ArduinoCloud.update();
   //  put your main code here, to run repeatedly:
   if (wifi_mode == WIFI_STA)
