@@ -1,39 +1,44 @@
 // Definicion de funciones
-boolean settingRead();  //lectura
-void settingsReset();    //reinicia
-boolean settingsSave();  //salva
+boolean settingRead();  // lectura
+void settingsReset();   // reinicia
+boolean settingsSave(); // salva
 
-boolean settingRead(){
+boolean settingRead()
+{
     DynamicJsonDocument jsonSettings(capacitySettings);
-    //DynamicJsonDocument jsonSettings(3000);
-    
+    // DynamicJsonDocument jsonSettings(3000);
+
     File file = SPIFFS.open("/settings.json", "r");
-    if(deserializeJson(jsonSettings, file)){ //si ocurre un error manda un verdadero asi trabaja la libreria
+    if (deserializeJson(jsonSettings, file))
+    { // si ocurre un error manda un verdadero asi trabaja la libreria
         settingsReset();
         // si da un error osea es verdadero hay que iniciar con valores de fabrica
         DeserializationError error = deserializeJson(jsonSettings, file);
         log("[ ERROR:vue32_settings.hpp ] Falló la lectura de las configuraciones, tomando valores por defecto");
-        if (error){
-            log("[ ERROR:vue32_settings.hpp ] " + String(error.c_str())); //se convierte de un char a un string
+        if (error)
+        {
+            log("[ ERROR:vue32_settings.hpp ] " + String(error.c_str())); // se convierte de un char a un string
         }
         return false;
-    }else{
+    }
+    else
+    {
         // ---------------------------------------------
         // si no hubo error:
         // Dispositivo settings.json
         // ---------------------------------------------
         device_config_file = jsonSettings["device_config_file"];
-        strlcpy(ctral, jsonSettings["ctral"], sizeof(ctral)); 
-        strlcpy(device_config_serial, jsonSettings["device_config_serial"],sizeof(device_config_serial));
-        strlcpy(device_id, jsonSettings["device_id"], sizeof(device_id)); 
-        strlcpy(device_old_user, jsonSettings["device_old_user"], sizeof(device_old_user)); 
-        strlcpy(device_old_password, jsonSettings["device_old_password"], sizeof(device_old_password)); 
+        strlcpy(ctral, jsonSettings["ctral"], sizeof(ctral));
+        strlcpy(device_config_serial, jsonSettings["device_config_serial"], sizeof(device_config_serial));
+        strlcpy(device_id, jsonSettings["device_id"], sizeof(device_id));
+        strlcpy(device_old_user, jsonSettings["device_old_user"], sizeof(device_old_user));
+        strlcpy(device_old_password, jsonSettings["device_old_password"], sizeof(device_old_password));
         // ---------------------------------------------
         // WIFI Cliente settings.json
         // ---------------------------------------------
         wifi_ip_static = jsonSettings["wifi_ip_static"];
-        strlcpy(wifi_ssid, jsonSettings["wifi_ssid"], sizeof(wifi_ssid)); //copia de un json a una variable tipo char(strlcpy)
-        strlcpy(wifi_password, jsonSettings["wifi_password"], sizeof(wifi_password));        
+        strlcpy(wifi_ssid, jsonSettings["wifi_ssid"], sizeof(wifi_ssid)); // copia de un json a una variable tipo char(strlcpy)
+        strlcpy(wifi_password, jsonSettings["wifi_password"], sizeof(wifi_password));
         strlcpy(wifi_ipv4, jsonSettings["wifi_ipv4"], sizeof(wifi_ipv4));
         strlcpy(wifi_subnet, jsonSettings["wifi_subnet"], sizeof(wifi_subnet));
         strlcpy(wifi_gateway, jsonSettings["wifi_gateway"], sizeof(wifi_gateway));
@@ -114,51 +119,52 @@ boolean settingRead(){
 // -------------------------------------------------------------------
 // Valores de Fábrica al settings.json
 // -------------------------------------------------------------------
-void settingsReset(){
+void settingsReset()
+{
     // -------------------------------------------------------------------
     // Dispositivo settings.json
     // -------------------------------------------------------------------
     device_config_file = true;
     strlcpy(ctral, "HGO-PTTI1", sizeof(ctral));
-    strlcpy(device_config_serial, deviceID().c_str() ,sizeof(device_config_serial));
+    strlcpy(device_config_serial, deviceID().c_str(), sizeof(device_config_serial));
     strlcpy(device_id, "adminvue32", sizeof(device_id));
-    strlcpy(device_old_user, "admin", sizeof(device_old_user)); 
-    strlcpy(device_old_password, "personal", sizeof(device_old_password)); 
+    strlcpy(device_old_user, "admin", sizeof(device_old_user));
+    strlcpy(device_old_password, "personal", sizeof(device_old_password));
     // -------------------------------------------------------------------
     // WIFI Cliente settings.json
     // -------------------------------------------------------------------
-    wifi_ip_static = false; // false
-    strlcpy(wifi_ssid, "INFINITUM59W1_2.4", sizeof(wifi_ssid));//"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
-    strlcpy(wifi_password, "unJvpTX5Vp", sizeof(wifi_password));//"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
-    strlcpy(wifi_ipv4, "10.4.30.15", sizeof(wifi_ipv4)); // trabajo192.168.1.150 //en casa 192.168.1.75
+    wifi_ip_static = false;                                      // false
+    strlcpy(wifi_ssid, "INFINITUMD378", sizeof(wifi_ssid));  //"INFINITUMD378" //INFINITUM59W1_2.4//INFINITUMF69D_2.4
+    strlcpy(wifi_password, "Pm2Kj1Jg6j", sizeof(wifi_password)); //"Pm2Kj1Jg6j"    //unJvpTX5Vp      //89r3X2Z7nJ
+    strlcpy(wifi_ipv4, "10.4.30.15", sizeof(wifi_ipv4));         // trabajo192.168.1.150 //en casa 192.168.1.75
     strlcpy(wifi_subnet, "255.255.255.0", sizeof(wifi_subnet));
-    strlcpy(wifi_gateway, "10.4.30.254", sizeof(wifi_gateway));//192.168.1.254
-    strlcpy(wifi_dns_primary, "10.192.10.1", sizeof(wifi_dns_primary)); //8.8.8.8
-    strlcpy(wifi_dns_secondary, "10.106.10.2", sizeof(wifi_dns_secondary)); //8.8.4.4
+    strlcpy(wifi_gateway, "10.4.30.254", sizeof(wifi_gateway));             // 192.168.1.254
+    strlcpy(wifi_dns_primary, "10.192.10.1", sizeof(wifi_dns_primary));     // 8.8.8.8
+    strlcpy(wifi_dns_secondary, "10.106.10.2", sizeof(wifi_dns_secondary)); // 8.8.4.4
     // -------------------------------------------------------------------
     // WIFI AP settings.json
     // -------------------------------------------------------------------
-    ap_mode = false; //false
+    ap_mode = false; // false
     strlcpy(ap_ssid, deviceID().c_str(), sizeof(ap_ssid));
     strlcpy(ap_password, "personal", sizeof(ap_password));
-    ap_visibility = false;        
-    ap_chanel = 9;         
+    ap_visibility = false;
+    ap_chanel = 9;
     ap_connect = 4;
     // -------------------------------------------------------------------
     // Cloud settings.json
     // -------------------------------------------------------------------
     mqtt_cloud_enable = true;
-    strlcpy(mqtt_user, "lalo", sizeof(mqtt_user)); //lalo79
-    strlcpy(mqtt_password, "public", sizeof(mqtt_password)); //public
-    strlcpy(mqtt_server, "iotmx.com", sizeof(mqtt_server)); //iotmx.com
+    strlcpy(mqtt_user, "lalo", sizeof(mqtt_user));           // lalo79
+    strlcpy(mqtt_password, "public", sizeof(mqtt_password)); // public
+    strlcpy(mqtt_server, "iotmx.com", sizeof(mqtt_server));  // iotmx.com
     strlcpy(mqtt_cloud_id, deviceID().c_str(), sizeof(mqtt_cloud_id));
     mqtt_port = 1883;
     mqtt_retain = false;
     mqtt_qos = 0;
     mqtt_time_send = true;
-    mqtt_time_interval = 10000; //3o segundos
+    mqtt_time_interval = 10000; // 3o segundos
     mqtt_status_send = true;
-    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto");   
+    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto");
 
     // -------------------------------------------------------------------
     // Time settings.json
@@ -202,27 +208,29 @@ void settingsReset(){
     ALARM_LOGICA8 = false;
     ALARM_PIN8 = 27;
     ALARM_NAME8 = "ALARMA D27";
-    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto"); 
+    log("[ INFO:vue32_settings.hpp ] Se reiniciaron todos los valores por defecto");
 }
 
 // -------------------------------------------------------------------
 // Guardar settings.json
 // -------------------------------------------------------------------
-boolean settingsSave(){
+boolean settingsSave()
+{
     // StaticJsonDocument<capacitySettings> jsonSettings;
     DynamicJsonDocument jsonSettings(capacitySettings);
-    
-    File file = SPIFFS.open("/settings.json", "w+"); //escritura
 
-    if (file){ //si se puede abiri
+    File file = SPIFFS.open("/settings.json", "w+"); // escritura
+
+    if (file)
+    { // si se puede abiri
         // -------------------------------------------------------------------
         // Dispositivo settings.json
         // -------------------------------------------------------------------
         jsonSettings["ctral"] = ctral;
-        jsonSettings["device_config_file"] = device_config_file; //clave:valor
+        jsonSettings["device_config_file"] = device_config_file; // clave:valor
         jsonSettings["device_config_serial"] = device_config_serial;
         jsonSettings["device_id"] = device_id;
-        jsonSettings["device_old_user"] = device_old_user; 
+        jsonSettings["device_old_user"] = device_old_user;
         jsonSettings["device_old_password"] = device_old_password;
         // -------------------------------------------------------------------
         // WIFI Cliente settings.json
@@ -257,7 +265,7 @@ boolean settingsSave(){
         jsonSettings["mqtt_qos"] = mqtt_qos;
         jsonSettings["mqtt_time_send"] = mqtt_time_send;
         jsonSettings["mqtt_time_interval"] = mqtt_time_interval;
-        jsonSettings["mqtt_status_send"] = mqtt_status_send; 
+        jsonSettings["mqtt_status_send"] = mqtt_status_send;
 
         // ---------------------------------------------------------------------------------
         // TIME settings.json
@@ -273,7 +281,7 @@ boolean settingsSave(){
         jsonSettings["RELAY_PIN"] = RELAY_PIN;
         jsonSettings["RELAY_LOGICA"] = RELAY_LOGICA;
         jsonSettings["RELAY_NAME"] = RELAY_NAME;
-        jsonSettings["RELAY_DESCRIPTION"] =RELAY_DESCRIPTION;
+        jsonSettings["RELAY_DESCRIPTION"] = RELAY_DESCRIPTION;
         // --------------------------------------------------------------
         // ALARMAS settings.json
         // --------------------------------------------------------------
@@ -302,15 +310,15 @@ boolean settingsSave(){
         jsonSettings["ALARM_NAME8"] = ALARM_NAME8;
         jsonSettings["ALARM_PIN8"] = ALARM_PIN8;
 
-
         serializeJsonPretty(jsonSettings, file);
         file.close();
         log("[ INFO:vue32_settings.hpp ] Configuración Guardada correctamente");
         serializeJsonPretty(jsonSettings, Serial);
         return true;
-    }else{
+    }
+    else
+    {
         log("[ ERROR:vue32_settings.hpp ] Falló el guardado de la configuración");
         return false;
     }
 }
-
